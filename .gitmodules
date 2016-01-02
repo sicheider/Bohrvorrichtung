@@ -1,0 +1,6 @@
+[submodule "ModbusMaster"]
+	path = ModbusMaster
+	url = https://github.com/4-20ma/ModbusMaster.git
+[submodule "UsbFat"]
+	path = UsbFat
+	url = https://github.com/greiman/UsbFat.git
