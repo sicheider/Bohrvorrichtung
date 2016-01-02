@@ -19,6 +19,7 @@ void setup()
 	delay(5000);
 	//set rotor positioningsteps
 	writeRegisterRotor(1024, 1025, 0, 500);
+	/*
 	//set rotor operationspeed
 	writeRegisterRotor(1152, 1153, 0, 2);
 	//set rotor operationmode
@@ -37,14 +38,6 @@ void setup()
 	writeRegisterRotor(1920, 1921, 0, 0);
 	//set rotor dwelltime
 	writeRegisterRotor(2048, 2049, 0, 0);
-	//set rotor operationnumber
-	/*
-	writeRegisterRotor(4096, 4097, 0, 0);
-	writeRegisterRotor(4098, 4099, 0, 0);
-	writeRegisterRotor(4100, 4101, 0, 0);
-	writeRegisterRotor(4102, 4103, 0, 0);
-	writeRegisterRotor(4104, 4105, 0, 0);
-	writeRegisterRotor(4106, 4107, 0, 0);
 	*/
 }
 
