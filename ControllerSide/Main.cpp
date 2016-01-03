@@ -45,7 +45,12 @@ void loop()
 	if(digitalRead(goButton) == HIGH)
 	{
 		digitalWrite(readyLed, LOW);
+		rotor.clearResponseBuffer();
 		rotor.writeSingleRegister(125, 8);
+		/*
+		while(rotor.getResponseBuffer(0) == 0)
+		{}
+		*/
 		delay(5000);
 	}
 }
