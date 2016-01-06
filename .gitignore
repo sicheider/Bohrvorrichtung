@@ -1,6 +1,9 @@
 # everything els
 ARD-CD HM-60065-7E.pdf
 EAS-EAC UK 092014.pdf
+*.html
+*.xls
+ProcessData.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -4,6 +4,7 @@ ModbusMaster rotor(0, 1);
 ModbusMaster linear(0, 2);
 int goButton = 7;
 int readyLed = 12;
+int rotationDirectionLinear = 1;
 
 void writeRegisterRotor(ModbusMaster device, uint16_t adressUpper, uint16_t adressLower, uint16_t valueUpper, uint16_t valueLower)
 {
@@ -12,6 +13,32 @@ void writeRegisterRotor(ModbusMaster device, uint16_t adressUpper, uint16_t adre
 	delay(50);
 	device.writeSingleRegister(adressLower, valueLower);
 	delay(50);
+}
+
+int waitForRequest(ModbusMaster device)
+{
+	int result;
+	while(device.getResponseBuffer(0) == 0)
+	{
+	}
+	result = getResponseBuffer(0);
+	device.clearResponseBuffer();
+	delay(50);
+	return result;
+}
+
+void switchRotationDirectionLinear()
+{
+	if(rotationDirectionLinear == 0)
+	{
+		writeRegisterRotor(linear, 900, 901, 0, 1);
+		rotationDirectionLinear = 1;
+	}
+	else
+	{
+		writeRegisterRotor(linear, 900, 901, 0, 0);
+		rotationDirectionLinear = 0;
+	}
 }
 
 /*
@@ -30,6 +57,7 @@ dwelltime		unknown			0					2048		2049
 
 void setup()
 {
+	digitalWrite(readyLed, LOW);
 	rotor.begin(9600);
 	linear.begin(9600);
 	pinMode(goButton, INPUT);
@@ -45,12 +73,7 @@ void loop()
 	if(digitalRead(goButton) == HIGH)
 	{
 		digitalWrite(readyLed, LOW);
-		rotor.clearResponseBuffer();
 		rotor.writeSingleRegister(125, 8);
-		/*
-		while(rotor.getResponseBuffer(0) == 0)
-		{}
-		*/
-		delay(5000);
+		waitForRequest(rotor);
 	}
 }
