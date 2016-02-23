@@ -2,44 +2,12 @@
 
 ModbusMaster rotor(0, 1);
 ModbusMaster linear(0, 2);
-int goButton = 7;
-int readyLed = 12;
+int goButton = 22;
+int readyLed = 52;
+int dataEnable = 36;
+int recieveEnable = 38;
 int rotationDirectionLinear = 1;
 
-void writeRegisterRotor(ModbusMaster device, uint16_t adressUpper, uint16_t adressLower, uint16_t valueUpper, uint16_t valueLower)
-{
-	delay(50);
-	device.writeSingleRegister(adressUpper, valueUpper);
-	delay(50);
-	device.writeSingleRegister(adressLower, valueLower);
-	delay(50);
-}
-
-int waitForRequest(ModbusMaster device)
-{
-	int result;
-	while(device.getResponseBuffer(0) == 0)
-	{
-	}
-	result = getResponseBuffer(0);
-	device.clearResponseBuffer();
-	delay(50);
-	return result;
-}
-
-void switchRotationDirectionLinear()
-{
-	if(rotationDirectionLinear == 0)
-	{
-		writeRegisterRotor(linear, 900, 901, 0, 1);
-		rotationDirectionLinear = 1;
-	}
-	else
-	{
-		writeRegisterRotor(linear, 900, 901, 0, 0);
-		rotationDirectionLinear = 0;
-	}
-}
 
 /*
 main process registers
@@ -62,6 +30,10 @@ void setup()
 	linear.begin(9600);
 	pinMode(goButton, INPUT);
 	pinMode(readyLed, OUTPUT);
+        pinMode(dataEnable, OUTPUT);
+        pinMode(recieveEnable, OUTPUT);
+        digitalWrite(dataEnable, HIGH);
+        digitalWrite(recieveEnable, HIGH);
 	delay(5000);
 	//set rotor positioningsteps
 	writeRegisterRotor(rotor, 1024, 1025, 0, 1500);
@@ -75,5 +47,40 @@ void loop()
 		digitalWrite(readyLed, LOW);
 		rotor.writeSingleRegister(125, 8);
 		waitForRequest(rotor);
+	}
+}
+
+void writeRegisterRotor(ModbusMaster device, uint16_t adressUpper, uint16_t adressLower, uint16_t valueUpper, uint16_t valueLower)
+{
+	delay(50);
+	device.writeSingleRegister(adressUpper, valueUpper);
+	delay(50);
+	device.writeSingleRegister(adressLower, valueLower);
+	delay(50);
+}
+
+uint16_t waitForRequest(ModbusMaster device)
+{
+	uint16_t result;
+	while(device.getResponseBuffer(0) == 0)
+	{
+	}
+	result = device.getResponseBuffer(0);
+	device.clearResponseBuffer();
+	delay(50);
+	return result;
+}
+
+void switchRotationDirectionLinear()
+{
+	if(rotationDirectionLinear == 0)
+	{
+		writeRegisterRotor(linear, 900, 901, 0, 1);
+		rotationDirectionLinear = 1;
+	}
+	else
+	{
+		writeRegisterRotor(linear, 900, 901, 0, 0);
+		rotationDirectionLinear = 0;
 	}
 }
