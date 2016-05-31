@@ -1,3 +1,0 @@
-[submodule "UsbFat"]
-	path = UsbFat
-	url = https://github.com/greiman/UsbFat.git
