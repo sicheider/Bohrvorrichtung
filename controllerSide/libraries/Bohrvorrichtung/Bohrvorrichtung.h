@@ -6,6 +6,7 @@
 
 class Device : public ModbusMaster{
 	private:
+		String name;
 		uint8_t adress;
 		uint16_t transmitData;
 		static const uint16_t outputRegister = 0x007F;
@@ -17,14 +18,15 @@ class Device : public ModbusMaster{
 		static const uint8_t mSignalCount = 3;
 
 		void waitFor();
-		void setStartFlag();
-		void unsetStartFlag();
+		void setFlag();
+		void unsetFlag();
 		void setOperationNo(uint16_t);
+		void printStatus(String);
 
 	public:
 		void startOperation(uint16_t);
 		void goHome();
-		Device(uint8_t, uint8_t, uint16_t);
+		Device(String, uint8_t, uint8_t, uint16_t);
 };
 
 #endif
