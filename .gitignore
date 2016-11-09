@@ -1,6 +1,7 @@
 # everything els
 *.xls
 ProcessData.txt
+zeiterfassung.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

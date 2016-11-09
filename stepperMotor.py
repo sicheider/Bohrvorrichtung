@@ -1,16 +1,27 @@
 import minimalmodbus
 import time
 import serial
+import logging
 
 class StepperMotor(minimalmodbus.Instrument, object):
-    def __init__(self, name, serialPort, adress):
-        #minimalmodbus.BAUDRATE = 19200
-        #minimalmodbus.STOPBITS = 1
-        #minimalmodbus.PARITY = serial.PARITY_NONE
-        #minimalmodbus.TIMEOUT = 0.05
+    def __init__(self, name, adress, master,
+            serialPort = "/dev/ttyUSB0",
+            baudrate = 19200,
+            stopbits = 1,
+            parity = serial.PARITY_NONE,
+            timeout = 0.05,
+            standardWaitTime = 0.02,
+            waitForPingTime = 0.2,
+            maxFailCounter = 50):
+        minimalmodbus.BAUDRATE = baudrate
+        minimalmodbus.STOPBITS = stopbits
+        minimalmodbus.PARITY = parity
+        minimalmodbus.TIMEOUT = timeout
         super(StepperMotor, self).__init__(serialPort, adress)
-        self.waitForPingTime = 0.1
-        self.standardWaitTime = 0.02
+        self.waitForPingTime = waitForPingTime
+        self.standardWaitTime = standardWaitTime
+        self.maxFailCounter = maxFailCounter
+        self.master = master
 
         self.inputRegister = 125
         self.outputRegister = 127
@@ -31,8 +42,8 @@ class StepperMotor(minimalmodbus.Instrument, object):
         self.operationCount = 7
         self.name = name
 
-    def printStatus(self, message):
-        print("[" + self.name + "] " + message)
+    def getStatus(self, message):
+        return ("[" + self.name + "] " + message)
 
     def getBitFromRegister(self, adress, bit):
         registerValue = self.readRegisterSafe(adress)
@@ -42,40 +53,55 @@ class StepperMotor(minimalmodbus.Instrument, object):
 
     def writeRegisterSafe(self, adress, value):
         run = True
+        failCounter = 0
         while run:
             try:
+                if failCounter > self.maxFailCounter:
+                    logging.warning(self.getStatus("Could not write to register!"))
+                    raise IOError("Could not write to register!")
                 super(StepperMotor, self).write_register(adress, value)
                 run = False
             except IOError:
-                self.printStatus("IOError while writing register")
+                failCounter = failCounter + 1
+                logging.debug(self.getStatus("IOError while writing register!"))
                 time.sleep(self.standardWaitTime)
             except ValueError as e:
-                self.printStatus("ValueError while writing register")
-                self.printStatus(e.message)
+                failCounter = failCounter + 1
+                logging.debug(self.getStatus("ValueError while writing register!"))
+                logging.debug(self.getStatus(e.message))
                 time.sleep(self.standardWaitTime)
 
     def readRegisterSafe(self, adress):
         run = True
+        failCounter = 0
         while run:
             try:
+                if failCounter > self.maxFailCounter:
+                    logging.warning(self.getStatus("Could not read from register!"))
+                    raise IOError("Could not read from register!")
                 return super(StepperMotor, self).read_register(adress)
             except IOError:
-                self.printStatus("IOError while reading from register")
+                failCounter = failCounter + 1
+                logging.debug(self.getStatus("IOError while reading from register!"))
                 time.sleep(self.standardWaitTime)
             except ValueError as e:
-                self.printStatus("ValueError while reading from register")
-                self.printStatus(e.message)
+                failCounter = failCounter + 1
+                logging.debug(self.getStatus("ValueError while reading from register!"))
+                logging.debug(self.getStatus(e.message))
                 time.sleep(self.standardWaitTime)
 
     def waitFor(self):
-        self.printStatus("Waiting for operation to finish")
+        logging.debug(self.getStatus("Waiting for operation to finish!"))
         run = True
-        while run:
+        while run and not self.master.isInterrupted:
             move = self.getBitFromRegister(self.outputRegister, self.moveBitOutput)
             if not move:
                 run = False
             time.sleep(self.waitForPingTime)
-        self.printStatus("Operation finished")
+        if self.master.isInterrupted:
+            self.master.handleInterrupt()
+            return
+        logging.debug(self.getStatus("Operation finished!"))
         time.sleep(self.standardWaitTime)
 
     def writeToInputRegister(self, value):
@@ -85,23 +111,29 @@ class StepperMotor(minimalmodbus.Instrument, object):
         time.sleep(self.standardWaitTime)
 
     def goHome(self):
+        self.printStatus("Going home")
         self.writeToInputRegister(2**self.homeBitInput)
         self.waitFor()
 
     def goForward(self):
+        self.printStatus("Going forward")
         self.writeRegisterSafe(self.inputRegister, 2**self.forwardBitInput)
 
     def goReverse(self):
+        self.printStatus("Going reverse")
         self.writeRegisterSafe(self.inputRegister, 2**self.reverseBitInput)
 
     def startOperation(self, operationNumber):
         if operationNumber > self.operationCount or operationNumber < 0:
             raise ValueError("Invalid value for operation number!")
+        self.printStatus("Starting operation " + str(operationNumber))
         self.writeToInputRegister(2**self.startBitInput | operationNumber)
         self.waitFor()
 
     def stopMoving(self):
         self.writeToInputRegister(2**self.stopBitInput)
+        time.sleep(self.standardWaitTime)
+        self.writeToInputRegister(0)
 
     def writeOperationPosition(self, operationPosition, operationNumber):
         if operationPosition > 2**16 or operationPosition < 0:

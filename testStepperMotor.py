@@ -1,6 +1,6 @@
 import stepperMotor
 
-s = stepperMotor.StepperMotor("rotor", "/dev/pts/9", 5)
+s = stepperMotor.StepperMotor("rotor", 5)
 raw_input("writeregister")
 s.writeRegisterSafe(127, 65530)
 raw_input("readregister")
