@@ -185,8 +185,7 @@ class CommandSender(object):
             sys.exit(1)
 
     def receiveResponse(self):
-        """Waits until a command response has arrived. Writes the response in master.recentRespone and sets
-        master.allowedToSend = True. Sends an interrupt command if necessary.
+        """Waits until a command response has arrived. Sends an interrupt command if necessary.
 
         Args:
             None
