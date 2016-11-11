@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>600</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,19 +18,22 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>10</y>
       <width>571</width>
-      <height>58</height>
+      <height>31</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>6</number>
+     </property>
      <item>
-      <widget class="QComboBox" name="comboBox"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Neuer Datensatz</string>
+      <widget class="QComboBox" name="comboBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
       </widget>
      </item>
@@ -40,23 +43,23 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>50</y>
       <width>281</width>
       <height>260</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="rotorPositionEdit"/>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="holeCountEdit"/>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_4"/>
+      <widget class="QLineEdit" name="x1Edit"/>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_5"/>
+      <widget class="QLineEdit" name="x2Edit"/>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
@@ -66,10 +69,10 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_3"/>
+      <widget class="QLineEdit" name="rotorSpeedEdit"/>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_6"/>
+      <widget class="QLineEdit" name="x3Edit"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -88,21 +91,21 @@
      <item row="4" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Position 2 [mm]</string>
+        <string>Position 2 [Schritten]</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Position 1 [mm]</string>
+        <string>Position 1 [Schritten]</string>
        </property>
       </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Position x3 [mm]</string>
+        <string>Position 3 [Schritten]</string>
        </property>
       </widget>
      </item>
@@ -112,71 +115,74 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>100</y>
+      <y>50</y>
       <width>281</width>
       <height>261</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_9"/>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_13"/>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_12"/>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_9">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetNoConstraint</enum>
+     </property>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_11">
        <property name="text">
-        <string>Position 4 [mm]</string>
+        <string>Geschwindigkeit 2 [Hz]</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_11"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_10"/>
+      <widget class="QLineEdit" name="v4Edit"/>
      </item>
      <item row="5" column="0">
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Geschwindigkeit 3 [Hz]</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Geschwindigkeit 1 [Hz]</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
       <widget class="QLabel" name="label_14">
        <property name="text">
         <string>Datensatzname</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Geschwindigkeit 1 [mm/s]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Geschwindigkeit 3 [mm/s]</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>Geschwindigkeit 2 [mm/s]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
       <widget class="QLabel" name="label_13">
        <property name="text">
-        <string>Geschwindigkeit 4 [mm]s</string>
+        <string>Rückfahrgeschwindigkeit [Hz]</string>
        </property>
       </widget>
      </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="dataNameEdit"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="v2Edit"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="v1Edit"/>
+     </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_14"/>
+      <widget class="QLineEdit" name="v3Edit"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="extraEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Bemerkung</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -184,51 +190,128 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>320</y>
       <width>571</width>
-      <height>201</height>
+      <height>261</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>6</number>
+     </property>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="saveDataButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Datensatz speichern</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_7">
+      <widget class="QPushButton" name="saveDataAndLoadButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Datensatz in Maschine schreiben</string>
+        <string>Datensatz speichern und in Maschine schreiben</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="deleteDataButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Datensatz löschen</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="driveX1Button">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Position 1 anfahren</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="driveX2Button">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Position 2 anfahren</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="driveX3Button">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Position 3 anfahren</string>
        </property>
       </widget>
      </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>590</y>
+      <width>571</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QPushButton" name="pushButton_6">
+      <widget class="QPushButton" name="startButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Position 4 anfahren</string>
+        <string>START</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="stopButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>STOP</string>
        </property>
       </widget>
      </item>

@@ -35,19 +35,22 @@ class Bohrvorrichtung(object):
             * rotorOperationSpeed
             * rotorOperationMode
             * x1: The position where drilling starts
-            * x2: The position where drilling ends
-            * x3: The position where drilling starts
-            * x4: Nullposition
+            * x2: The middleposition of drilling 
+            * x3: The position where drilling ends
+            * x4: The position where drilling starts
+            * x5: Nullposition
             * v1: Speed to x1
             * v2: Speed to x2
             * v3: Speed to x3
             * v4: Speed to x4
+            * v5: Speed to x5
             * mode1
             * mode2
             * mode3
             * mode4
+            * mode5
         """
-        data = open("processdata.json", "r")
+        data = open("processData.json", "r")
         self.processData = json.loads(data.read())
         self.holeNumer = self.processData["holeNumer"]
         logging.info("Loaded process data:")
@@ -64,14 +67,17 @@ class Bohrvorrichtung(object):
         self.linear.writeOperationPosition(self.processData["x2"], 1)
         self.linear.writeOperationPosition(self.processData["x3"], 2)
         self.linear.writeOperationPosition(self.processData["x4"], 3)
+        self.linear.writeOperationPosition(self.processData["x5"], 4)
         self.linear.writeOperationSpeed(self.processData["v1"], 0)
         self.linear.writeOperationSpeed(self.processData["v2"], 1)
         self.linear.writeOperationSpeed(self.processData["v3"], 2)
         self.linear.writeOperationSpeed(self.processData["v4"], 3)
+        self.linear.writeOperationSpeed(self.processData["v5"], 4)
         self.linear.writeOperationMode(self.processData["mode1"], 0)
         self.linear.writeOperationMode(self.processData["mode2"], 1)
         self.linear.writeOperationMode(self.processData["mode3"], 2)
         self.linear.writeOperationMode(self.processData["mode4"], 3)
+        self.linear.writeOperationMode(self.processData["mode5"], 4)
 
     def processDataToDevice(self):
         """Loads and writes process data."""
@@ -94,6 +100,7 @@ class Bohrvorrichtung(object):
         for _ in range(0, self.holeNumer):
             self.linear.startOperation(1)
             self.linear.startOperation(2)
+            self.linear.startOperation(3)
             self.rotor.startOperation(0)
         self.linear.goHome()
 
