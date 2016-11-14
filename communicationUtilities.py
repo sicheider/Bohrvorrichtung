@@ -115,7 +115,10 @@ class CommandReceiver(threading.Thread):
                 elif commandRequest == commands.INTERRUPT:
                     logging.info("Master interrupted from: " + str(con))
                     self.master.isInterrupted = True
-                    con.sendall(commands.INTERRUPT)
+                    self.commandRequests.clear()
+                    self.commandResponses.clear()
+                    for con in self.connections:
+                        con.sendall(commands.INTERRUPT)
                 else:
                     logging.debug("Command received: " + commandRequest)
                     self.commandRequests.append((commandRequest, con))
@@ -148,7 +151,7 @@ class CommandReceiver(threading.Thread):
             self.receiveCommandRequests()
             self.sendCommandResponses()
 
-class CommandSender(object):
+class CommandSender(threading.Thread):
     """Class to send command requests and wait for command responses.
 
     Attributes:
@@ -157,6 +160,7 @@ class CommandSender(object):
         * sendInterrupt: If true CommandSender sends an interrupt command to CommandReceiver
         * timeout: Blocking time for reading socket
         * s: socket, which is connected to a commandReceiver
+        * commandRequestToSend: The command which will be send in the next iteration of the main loop
     """
     def __init__(self, master, host = "localhost", port = 54321, timeout = 0.2):
         """Constructor; sets attributes and connects the socket to a CommandReceiver.
@@ -172,10 +176,13 @@ class CommandSender(object):
         Raises:
             None
         """
+        threading.Thread.__init__(self)
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.master = master
         self.timeout = timeout
         self.sendInterrupt = False
+        self.deamon = True
+        self.commandRequestToSend = ""
         try:
             self.s.connect((host, port))
             self.s.setblocking(0)
@@ -196,25 +203,24 @@ class CommandSender(object):
         Raises:
             None
         """
-        run = True
-        while run:
+        try:
             reading, writing, error = select.select([self.s], [], [], self.timeout)
-            if reading:
-                try:
-                    response = reading[0].recv(256)
-                    run = False
-                    self.master.onResponse(response)
-                    self.master.allowedToSend = True
-                except socket.error as e:
-                    logging.warning(str(e))
-            if self.sendInterrupt:
-                self.s.sendall(commands.INTERRUPT)
-
-    def sendRequest(self, commandRequest):
-        """Sends a command request to a CommandReceiver. Waits for the response in a thread.
+        except KeyboardInterrupt:
+            os.kill(os.getpid(), 9)
+        if reading:
+            try:
+                response = reading[0].recv(256)
+                run = False
+                self.master.onResponse(response)
+                self.master.allowedToSend = True
+            except socket.error as e:
+                logging.warning(str(e))
+        
+    def sendRequest(self):
+        """Sends the commandRequestToSend request to a CommandReceiver. Waits for the response in a thread.
 
         Args:
-            * commandRequest: the command to be send
+           None 
 
         Returns:
             None
@@ -223,14 +229,19 @@ class CommandSender(object):
             None
         """
         try:
-            self.s.sendall(commandRequest)
-            self.master.allowedToSend = False
-            thread = threading.Thread(target = self.receiveResponse)
-            thread.start()
+            if self.commandRequestToSend != "" and not self.sendInterrupt:
+                logging.debug("Sending command request:")
+                logging.debug(self.commandRequestToSend)
+                self.s.sendall(self.commandRequestToSend)
+                self.master.allowedToSend = False
+                self.commandRequestToSend = ""
+            if self.sendInterrupt:
+                self.s.sendall(commands.INTERRUPT)
+                self.sendInterrupt = False
         except socket.error as e:
             logging.warning(str(e))
 
-    def close(self):
-        """Closes the connection to the CommandReceiver."""
-        self.s.shutdown(socket.SHUT_RDWR)
-        self.s.close()
+    def run(self):
+        while True:
+            self.sendRequest()
+            self.receiveResponse()

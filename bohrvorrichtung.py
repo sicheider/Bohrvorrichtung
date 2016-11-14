@@ -18,6 +18,7 @@ class Bohrvorrichtung(object):
     """
     def __init__(self):
         """Constructor. Initializes everythin."""
+        logging.basicConfig(level = logging.DEBUG)
         self.rotor = stepperMotor.StepperMotor("rotor", 5, self)
         self.linear = stepperMotor.StepperMotor("linear", 6, self)
         self.processDataToDevice()
@@ -104,6 +105,12 @@ class Bohrvorrichtung(object):
             self.rotor.startOperation(0)
         self.linear.goHome()
 
+    def driveLinearTo(self, position):
+        """Drives linear to given position."""
+        self.linear.startOperation(4)
+        for i in range(0, position):
+            self.linear.startOperation(i)
+
     def handleCommand(self, command):
         """Parses a incomming command and performs an action.
         
@@ -116,9 +123,40 @@ class Bohrvorrichtung(object):
                 return commands.RESPONSE_SUCCESS
             except KeyboardInterrupt:
                 os.kill(os.getpid(), 9)
-            except IOError:
+            except:
+                logging.exception("Error while drilling!")
+                return commands.RESPONSE_FAIL
+        elif command == commands.REQUEST_RELOADDATA:
+            try:
+                self.processDataToDevice()
+                return commands.RESPONSE_SUCCESS
+            except:
+                logging.exception("Error while loading process data!")
+                return commands.RESPONSE_FAIL
+        elif command == commands.REQUEST_DRIVEX1:
+            try:
+                self.driveLinearTo(1)
+                return commands.RESPONSE_SUCCESS
+            except:
+                logging.exception("Error while positioning linear!")
+                return commands.RESPONSE_FAIL
+        elif command == commands.REQUEST_DRIVEX2:
+            try:
+                self.driveLinearTo(2)
+                return commands.RESPONSE_SUCCESS
+            except:
+                logging.exception("Error while positioning linear!")
+                return commands.RESPONSE_FAIL
+        elif command == commands.REQUEST_DRIVEX3:
+            try:
+                self.driveLinearTo(3)
+                return commands.RESPONSE_SUCCESS
+            except:
+                logging.exception("Error while positioning linear!")
                 return commands.RESPONSE_FAIL
         else:
+            logging.warning("Invalid request:")
+            logging.warning(command)
             return commands.INVALID_REQUEST
 
     def handleInterrupt(self):
