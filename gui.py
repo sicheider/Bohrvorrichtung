@@ -71,7 +71,7 @@ class Gui(QtGui.QDialog):
         self.onSaveButtonClicked()
         data = self.getDataFromEdits()
         dataFile = open("processData.json", "w")
-        dataFile.write(json.dumps(data, indent = 4))
+        dataFile.write(json.dumps(data, indent = 4, sort_keys = True))
         dataFile.close()
         self.cs.commandRequestToSend = commands.REQUEST_RELOADDATA
         self.disableWidgets()
@@ -98,7 +98,7 @@ class Gui(QtGui.QDialog):
         self.ui.comboBox.setCurrentIndex(index)
         #save data to file
         dataFile = open("allProcessData.json", "w")
-        dataFile.write(json.dumps(self.allProcessData, indent = 4))
+        dataFile.write(json.dumps(self.allProcessData, indent = 4, sort_keys = True))
         dataFile.close()
 
     def onDeleteButtonClicked(self):
@@ -111,7 +111,7 @@ class Gui(QtGui.QDialog):
         self.ui.comboBox.setCurrentIndex(0)
         #write allProcessData to file
         dataFile = open("allProcessData.json", "w")
-        dataFile.write(json.dumps(self.allProcessData))
+        dataFile.write(json.dumps(self.allProcessData, indent = 4, sort_keys = True))
         dataFile.close()
 
     def onDriveToX1ButtonClicked(self):
@@ -210,30 +210,99 @@ class Gui(QtGui.QDialog):
 
     def getDataFromEdits(self):
         try:
-            return {"name" : str(self.ui.dataNameEdit.text()),
-                    "edit" : str(self.ui.extraEdit.text()),
-                    "holeNumber" : int(self.ui.holeCountEdit.text()),
-                    "rotorSteps" : int(self.ui.rotorPositionEdit.text()),
-                    "rotorOperationSpeed" : int(self.ui.rotorSpeedEdit.text()),
+            maxLinearSpeed = 20000
+            maxLinearSteps = 20000
+            minLinearSpeed = 1
+            minLinearSteps = 0
+            maxRotorSteps = 40000
+            maxRotorSpeed = 50000
+            minRotorSteps = 1
+            minRotorSpeed = 1
+            name = str(self.ui.dataNameEdit.text())
+            edit = str(self.ui.extraEdit.text())
+            holeNumber = int(self.ui.holeCountEdit.text())
+            rotorSteps = int(self.ui.rotorPositionEdit.text())
+            if rotorSteps > maxRotorSteps:
+                raise ValueError("Angabe fuer Rotorschritte zu gross!")
+            elif rotorSteps < minRotorSteps:
+                raise ValueError("Angabe fuer Rotorschritte zu klein!")
+            rotorOperationSpeed = int(self.ui.rotorSpeedEdit.text())
+            if rotorOperationSpeed > maxRotorSpeed:
+                raise ValueError("Angabe fuer Rotorgeschwindigkeit zu gross!")
+            elif rotorOperationSpeed < minRotorSpeed:
+                raise ValueError("Angabe fuer Rotorgeschwindigkeit zu klein!")
+            rotorOperationMode = 0
+            x1 = int(self.ui.x1Edit.text())
+            if x1 > maxLinearSteps:
+                raise ValueError("Angabe fuer Position 1 zu gross!")
+            elif x1 < minLinearSteps:
+                raise ValueError("Angabe fuer Position 1 zu klein!")
+            x2 = int(self.ui.x2Edit.text())
+            if x2 > maxLinearSteps:
+                raise ValueError("Angabe fuer Position 2 zu gross!")
+            elif x2 < minLinearSteps:
+                raise ValueError("Angabe fuer Position 2 zu klein!")
+            x3 = int(self.ui.x3Edit.text())
+            if x3 > maxLinearSteps:
+                raise ValueError("Angabe fuer Position 3 zu gross!")
+            elif x3 < minLinearSteps:
+                raise ValueError("Angabe fuer Position 3 zu klein!")
+            x4 = int(self.ui.x1Edit.text())
+            if x4 > maxLinearSteps:
+                raise ValueError("Angabe fuer Position 4 zu gross!")
+            elif x4 < minLinearSteps:
+                raise ValueError("Angabe fuer Position 4 zu klein!")
+            x5 = 0
+            v1 = int(self.ui.v1Edit.text())
+            if v1 > maxLinearSpeed:
+                raise ValueError("Angabe fuer Geschwindigkeit 1 zu gross!")
+            elif v1 < minLinearSpeed:
+                raise ValueError("Angabe fuer Geschwindigkeit 1 zu klein!")
+            v2 = int(self.ui.v2Edit.text())
+            if v2 > maxLinearSpeed:
+                raise ValueError("Angabe fuer Geschwindigkeit 2 zu gross!")
+            elif v2 < minLinearSpeed:
+                raise ValueError("Angabe fuer Geschwindigkeit 2 zu klein!")
+            v3 = int(self.ui.v3Edit.text())
+            if v3 > maxLinearSpeed:
+                raise ValueError("Angabe fuer Geschwindigkeit 3 zu gross!")
+            elif v3 < minLinearSpeed:
+                raise ValueError("Angabe fuer Geschwindigkeit 3 zu klein!")
+            v4 = int(self.ui.v4Edit.text())
+            if v4 > maxLinearSpeed:
+                raise ValueError("Angabe fuer Rueckfahrgeschwindigkeit zu gross!")
+            elif v4 < minLinearSpeed:
+                raise ValueError("Angabe fuer Rueckfahrgeschwindigkeit zu klein!")
+            v5 = 10000
+            mode1 = 1
+            mode2 = 1
+            mode3 = 1
+            mode4 = 1
+            mode5 = 1
+            return {"name" : name,
+                    "edit" : edit,
+                    "holeNumber" : holeNumber,
+                    "rotorSteps" : rotorSteps,
+                    "rotorOperationSpeed" : rotorOperationSpeed,
                     "rotorOperationMode" : 0,
-                    "x1" : int(self.ui.x1Edit.text()),
-                    "x2" : int(self.ui.x2Edit.text()),
-                    "x3" : int(self.ui.x3Edit.text()),
-                    "x4" : int(self.ui.x1Edit.text()),
-                    "x5" : 0,
-                    "v1" : int(self.ui.v1Edit.text()),
-                    "v2" : int(self.ui.v2Edit.text()),
-                    "v3" : int(self.ui.v3Edit.text()),
-                    "v4" : int(self.ui.v4Edit.text()),
-                    "v5" : 10000,
-                    "mode1" : 1,
-                    "mode2" : 1,
-                    "mode3" : 1,
-                    "mode4" : 1,
-                    "mode5" : 1}
-        except ValueError:
+                    "x1" : x1,
+                    "x2" : x2,
+                    "x3" : x3,
+                    "x4" : x4,
+                    "x5" : x5,
+                    "v1" : v1,
+                    "v2" : v2,
+                    "v3" : v3,
+                    "v4" : v4,
+                    "v5" : v5,
+                    "mode1" : mode1,
+                    "mode2" : mode2,
+                    "mode3" : mode3,
+                    "mode4" : mode4,
+                    "mode5" : mode5}
+        except ValueError as e:
             w = QtGui.QWidget()
-            QtGui.QMessageBox.warning(w, "Warnung!", "Ungueltige Eingabewerte!")
+            QtGui.QMessageBox.warning(w, "Warnung!", e.message)
             raise ValueError
 
     def refreshDataEdits(self, processData):
