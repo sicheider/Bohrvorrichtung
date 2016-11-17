@@ -8,13 +8,24 @@ from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import pyqtSignal, pyqtSlot
 
 class Gui(QtGui.QDialog):
+    """The gui to configure the driller.
 
+    Attributes:
+        * receivedResponse: The signal which is emmited if the gui has received an answer
+        * ui: The interface
+        * cs: The sender which sends commands to the driller
+        * allowedToSend: A flag which indicates, if the gui is allowed to send commands
+        * allProcessData: A list of dictionarys which stores all process data. See :meth:`loadAllProcessData`
+        * allProcessDataFileName: The json file where all process data are stored
+    """
     receivedResponse = pyqtSignal(str)
 
     def __init__(self):
         QtGui.QDialog.__init__(self)
         self.ui = uic.loadUi("Interface.ui")
 
+        self.allProcessDataFileName = "allProcessData.json"
+        self.processDataFileName = "processData.json"
         self.loadAllProcessData()
 
         logging.basicConfig(level = logging.DEBUG)
@@ -44,7 +55,31 @@ class Gui(QtGui.QDialog):
         self.ui.show()
 
     def loadAllProcessData(self):
-        data = open("allProcessData.json", "r")
+        """Loads all process data from the json file and stores them into allProcessData.
+        One process data must define the following:
+
+        Attributes:
+            * holeNumber: The ammount of holes
+            * rotorSteps: The steps for each rotor move
+            * rotorOperationSpeed
+            * rotorOperationMode
+            * x1: The position where drilling starts
+            * x2: The middleposition of drilling 
+            * x3: The position where drilling ends
+            * x4: The position where drilling starts
+            * x5: Nullposition
+            * v1: Speed to x1
+            * v2: Speed to x2
+            * v3: Speed to x3
+            * v4: Speed to x4
+            * v5: Speed to x5
+            * mode1
+            * mode2
+            * mode3
+            * mode4
+            * mode5
+        """
+        data = open(self.allProcessDataFileName, "r")
         self.allProcessData = json.loads(data.read())
         logging.info("Loaded all process data:")
         logging.info(str(self.allProcessData))
@@ -52,6 +87,9 @@ class Gui(QtGui.QDialog):
 
     @pyqtSlot(str)
     def onReceiveResponseEvent(self, response):
+        """Gets called when a response was received. Displays respone information
+        and enables widges.
+        """
         logging.info(response)
         if response == commands.INTERRUPT:
             w = QtGui.QWidget()
@@ -68,20 +106,23 @@ class Gui(QtGui.QDialog):
         self.receivedResponse.emit(response)
 
     def onSaveDataAndLoadButtonClicked(self):
+        """Saves process data and sends reload command."""
         self.onSaveButtonClicked()
         data = self.getDataFromEdits()
-        dataFile = open("processData.json", "w")
+        dataFile = open(self.processDataFileName, "w")
         dataFile.write(json.dumps(data, indent = 4, sort_keys = True))
         dataFile.close()
         self.cs.commandRequestToSend = commands.REQUEST_RELOADDATA
         self.disableWidgets()
 
     def onComboBoxChanged(self):
+        """Updates gui after combo box index change."""
         name = self.ui.comboBox.currentText()
         data = self.getProcessDataByName(name)
         self.refreshDataEdits(data)
 
     def onSaveButtonClicked(self):
+        """Saves current process data to allProcessData and writes it to file."""
         data = self.getDataFromEdits()
         updated = False
         #update allProcessData, if name already exists
@@ -97,11 +138,12 @@ class Gui(QtGui.QDialog):
         index = self.ui.comboBox.findText(data["name"])
         self.ui.comboBox.setCurrentIndex(index)
         #save data to file
-        dataFile = open("allProcessData.json", "w")
+        dataFile = open(self.allProcessDataFileName, "w")
         dataFile.write(json.dumps(self.allProcessData, indent = 4, sort_keys = True))
         dataFile.close()
 
     def onDeleteButtonClicked(self):
+        """Deletes current process data and updates allProcess data file."""
         data = self.getDataFromEdits()
         #update allProcessData
         self.allProcessData.remove(data)
@@ -110,7 +152,7 @@ class Gui(QtGui.QDialog):
         self.ui.comboBox.removeItem(index)
         self.ui.comboBox.setCurrentIndex(0)
         #write allProcessData to file
-        dataFile = open("allProcessData.json", "w")
+        dataFile = open(self.allProcessDataFileName, "w")
         dataFile.write(json.dumps(self.allProcessData, indent = 4, sort_keys = True))
         dataFile.close()
 
@@ -135,6 +177,7 @@ class Gui(QtGui.QDialog):
         self.disableWidgets()
 
     def disableWidgets(self):
+        """Disables all widgets."""
         self.ui.comboBox.setEnabled(False)
 
         self.ui.label.setEnabled(False)
@@ -172,6 +215,7 @@ class Gui(QtGui.QDialog):
         self.ui.startButton.setEnabled(False)
 
     def enableWidgets(self):
+        """Enables all widgets."""
         self.ui.comboBox.setEnabled(True)
 
         self.ui.label.setEnabled(True)
@@ -209,6 +253,17 @@ class Gui(QtGui.QDialog):
         self.ui.startButton.setEnabled(True)
 
     def getDataFromEdits(self):
+        """Reads from input edits.
+
+        Args:
+            None
+
+        Returns:
+            A dict with process data information. See :meth:`loadAllProcessData`
+
+        Raises:
+            ValueError
+        """
         try:
             maxLinearSpeed = 20000
             maxLinearSteps = 20000
@@ -306,6 +361,17 @@ class Gui(QtGui.QDialog):
             raise ValueError
 
     def refreshDataEdits(self, processData):
+        """Refreshes input edits with given values.
+
+        Args:
+            * processData: A dict with process data. See :meth:`loadAllProcessData`
+
+        Returns:
+            None
+
+        Raises:
+            None
+        """
         if processData != None:
             self.ui.dataNameEdit.setText(processData["name"])
             self.ui.extraEdit.setText(processData["edit"])
