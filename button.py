@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import sys
 import commands
@@ -10,8 +10,7 @@ class Button(object):
 
     Attributes:
         * buttonPin: GPIO pin where the button is connected to
-        * allowedToSend: indicates if button is allowed to send a command or not;
-        Button is not allowed to change this value by itself
+        * allowedToSend: indicates if button is allowed to send a command or not; Button is not allowed to change this value by itself
         * cs: An instance of CommandSender, which sends starting commands to the driller
     """
     def __init__(self, buttonPin = 18):
@@ -39,10 +38,10 @@ class Button(object):
 
     def start(self):
         """Listens if the button is pressed and sends a starting command to the driller,
-        if we allowed to."""
+        if its allowed to."""
         while True:
             if GPIO.input(self.buttonPin) == False and self.allowedToSend:
-                self.cs.sendRequest(commands.REQUEST_STARTDRILLING)
+                self.cs.commandRequestToSend = commands.REQUEST_STARTDRILLING
             time.sleep(0.1)
 
 if __name__ == "__main__":

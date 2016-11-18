@@ -7,7 +7,7 @@ import json
 import logging
 
 class Bohrvorrichtung(object):
-    """The actual driller.
+    """The actual driller. Starts listening on commands when :meth:`start` is called!
 
     Attributes:
         * rotor: The rotor stepper motor
@@ -157,7 +157,7 @@ class Bohrvorrichtung(object):
         else:
             logging.warning("Invalid request:")
             logging.warning(command)
-            return commands.INVALID_REQUEST
+            return commands.RESPONSE_INVALID_REQUEST
 
     def handleInterrupt(self):
         """Interrupts the driller. All motors are STOPPED."""
@@ -167,7 +167,8 @@ class Bohrvorrichtung(object):
         self.isInterrupted = False
 
     def start(self):
-        """Starts mainloop and listens to incoming commands."""
+        """Starts mainloop and listens to incoming commands.
+        For valid commands see :mod:`commands`"""
         logging.info("Starting main loop")
         while True:
             try:

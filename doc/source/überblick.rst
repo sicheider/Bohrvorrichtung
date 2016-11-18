@@ -1,0 +1,156 @@
+Überblick
+=========
+
+Das nachfolende Dokument soll die Funktionsweise, sowie den Quellcode der Felgenbohrmaschine
+dokumentieren. Die Bohrmaschine besteht im wesentlichen aus zwei Schrittmotoren. Einen
+zentralen Rotor, welcher für die Rotation und Positionierung der Felge zuständig ist und
+einer Lineareinheit, welche den Dremel positioniert und die Bohrbewegung ausführt.
+
+Ansteuerung der Motoren
+-----------------------
+
+In den Motoren sind mehrere Datensätze für zugehörige Motoroperationen gespeichert. Die wichtigsten
+Parameter eines Datensatzes sind:
+
+* Schrittversatz: Die Positionsveränderung in Schritten
+* Geschwindigkeit: Die Geschwindigkeit der Positionsveränderung in Hz (Schritte pro Sekunde)
+* Bewegungsmodus: Inkremental (0) oder Absolut (1). Bei einer inkrementalen Bewegung werden die Schritte im Schrittversatz zur aktuellen Position hinzuaddiert. Bei einer absoluten Bewegung positioniert sich der Motor gemessen am Ausgangspunkt.
+ 
+Soll nun eine bestimmte Operation ausgeführt werden, so muss am Inputregister die entsprechende
+Operation ausgewählt werden und das Startflag gesetzt werden. 
+
+Zusätzlich zu den gespeicherten Operationen kann eine ReturnToHome Operation durchgeführt werden.
+Hierbei fährt der Motor auf die Nullposition zurück. Die ReturnToHome Operation wird gestartet,
+indem das entsprechnede Bit am Inputregister gesetzt wird.
+
+Eine genauere Erläuterung zur Ansteuerung finded sich im Kapitel `Modbus/RS-485`_,
+sowie im OrientalMotor Datenblatt Kapitel 5 und in der Softwaredokumentation.
+
+Rotor
++++++
+
+Der zentrale Rotor besitzt nur einen Datensatz, welcher unter dem Index 0 gespeichert ist. Die
+zugehörige Operation rotiert die Felge um einen Bohrversatz.
+
+Lineareinheit
++++++++++++++
+
+In der Lineareinheit sind folgende Datensätze hinterlegt:
+
+* Index 0: Verfahren zum Bohrausgangspunkt (Pos. 1 mit Geschw. 1)
+* Index 1: Verfahren zum Bohrmittelpunkt (Pos. 2 mit Geschw. 2)
+* Index 3: Verfahren zum Bohrendpunkt (Pos. 3 mit Geschw. 3)
+* Index 4: Rückbewegung zum Bohrausgangspunkt (Pos. 1 mit Geschw. 4)
+* Index 5: Verfahren zum Linearnullpunkt UNKALIBRIERT
+
+.. figure:: schemaLineareinheit.png
+    :align: center
+
+    Positionen und Geschwindigkeiten der Lineareinheit
+
+Motorkonfiguration
+------------------
+
+Für eine funktionsfähige und fehlerfreie Kommunikation zwischen Steuerung und Schrittmotortreiber
+müssen die Treiber richtig konfiguriert sein. Folgende Einstellungen müssen überwacht werden:
+
+* ID: Adresse des Motors im Modbusprotokoll
+* Transmission rate (SW2): Serielle Übertragungsgeschwindigkeit
+* Function settings switch (SW4): Protokollkonfiguration
+* Terminierungswiderstände (TERM): Konfiguration der Terminierungswiderstände
+
+Rotor
++++++
+
+* ID: 5
+* SW2: 1 (19200 BAUD)
+* SW4-No.1: OFF
+* SW4-No.2: ON
+* TERM-No.1: ON
+* TERM-No.2: OFF
+
+Lineareinheit
++++++++++++++
+
+* ID: 6
+* SW2: 1 (19200 BAUD)
+* SW4-No.1: OFF
+* SW4-No.2: ON
+* TERM-No.1: ON
+* TERM-No.2: ON
+
+Modbus/RS-485
+-------------
+
+Die in `Ansteuerung der Motoren`_ beschriebenen Datensätze lassen sich mittels
+Motbus-RTU/RS-485 manipulieren. Modbus ist ein serielles
+Übertragungsprotokoll auf dem Master-Slave-Prinzip. Ein Master schickt Anforderungen an einen
+definierten Slave. Hat der Slave die Anfrage erhalten und bearbeitet schickt dieser eine
+Antwort an den Master. Die Steuerung der Felgenbohrmaschine benutzt folgende Anfragen:
+
+* writeRegister: Schreibt einen Wert in ein Register des Motortreibers
+* readRegister: Liest einen Wert aus einem Register des Motortreibers
+
+In den verschiedenen Treiberregistern werden Prozessparameter, wie z.B. Verfahrschritte,
+Verfahrgeschwindigkeit oder Beschleunigung des Motors gespeichert. Über das Inputregister (0x125) 
+lässt sich der Motor starten und stoppen. Über das Outputregister (0x127) können mittels readRegister
+Statusinformationen über den Motor abgefragen werden. Eine genaue Dokumentation der Register
+und deren Inhalte, sowie zum Modbusprotokoll findet sich im OrientalMotor Datenblatt Kapitel 5.
+
+Aufbau der Mastersteuerung/Software
+---------------------------------------
+
+Als Master der Modbuskommunikation kommt ein Rasperry Pi (RP) mit nachfolgend beschriebener Software zum Einsatz.
+Über einen USB zu RS-485 Konverter wird eine Verbindung zwichen RP und Schrittmotoren hergestellt. Der
+Konverter muss wie folgt konfiguriert sein:
+
+* SW1: OFF
+* SW2: OFF
+* SW3: OFF
+* SW4: OFF
+
+Auf dem RP läuft das Hauptprogramm der Bohrvorrichtung (:mod:`bohrvorrichtung`), welche auf einkommende
+Kommandos höhrt. Sobald ein Kommando empfangen wurde, wird dieses ausgeführt.
+
+Des Weiteren läuft ein Listenerprogramm, welches darauf wartet, dass der Druckknopf zum Starten gedrückt
+wird (:mod:`button`). Wird der Knopf gedrückt, so sendet das Programm ein Startsignal an das Hauptprogramm.
+
+Außerdem kann manuell die grafische Operfläche gestartet werden (:mod:`gui`). Die grafische Oberfläche
+stellt ebenfalls eine Verbindung zum Hauptprogramm her und sendet je nach Benutzereingabe verschiedene
+Signale an das Hauptprogramm.
+
+Aufbau des Hauptprogramms
++++++++++++++++++++++++++
+
+Wie bereits in `Modbus/RS-485`_ erwähnt, werden die Schrittmotoren über das Modbusprotokoll angesteuert.
+:mod:`minimalmodbus` stellt grundlegende Funktionalitäten zur Modbuskommunikation zur Verfügung. Beispielsweise
+writeRegister (zum Schreiben von Prozessparametern) oder readRegister (zum Lesen von Prozessparametern).
+:mod:`stepperMotor` erbt von :mod:`minimalmodbus` und stellt einen Schrittmotor dar. Mithilfe von
+:mod:`stepperMotor` kann ein Schrittmotor angesteuert, also bewegt und konfiguriert, werden. Das Hauptprogramm 
+(:mod:`bohrvorrichtung`) konstruiert sich nun zwei Instanzen von :mod:`stepperMotor`, welche jeweils den
+Rotor beziehungsweise die Lineareinheit darstellen. Beim Initialisieren werden alle benötigten
+Prozessparameter aus der Datei "processData.json" geladen. Die Datei entspricht dem JSON Standard.
+Der gültige Aufbau wird in :mod:`bohrvorrichtung` dokumentiert. Nach dem Initialisieren wird die
+Hauptschleife gestartet, welche auf einkommende Kommandos höhrt (definiert in :mod:`commands`).
+
+.. figure:: bohrvorrichtungUML.png
+    :align: center
+
+    UML Diagramm der Steuerungssoftware
+
+Aufbau der Interprozesskommunikation
+++++++++++++++++++++++++++++++++++++
+
+Die Kommunikation zwischen :mod:`gui`, :mod:`button` und :mod:`bohrvorrichtung` wird von
+:mod:`communicationUtilities` gesteuert. :mod:`bohrvorrichtung` besitzt eine Instanz der Klasse
+:class:`communicationUtilities.CommandReceiver` welche auf neue Verbindungen höhrt und Kommandos
+empfängt. Das Hauptprogramm kann dann empfangene Befehle aus der Warteschlange von
+:class:`communicationUtilities.CommandReceiver` nehmen und nach deren Ausführung die entsprechende
+Antwort in die Ausgangswarteschlange von :class:`communicationUtilities.CommandReceiver` schreiben.
+
+:mod:`gui` und :mod:`button` besitzen jeweils eine Instanz der Klasse
+:class:`communicationUtilities.CommandSender`,
+welche zuerst eine Verbindung zu :class:`communicationUtilities.CommandReceiver` 
+aufbaut und danach Befehle an die Gegenseite verschicken kann. Eine Sender darf erst ein neues
+Kommando verschicken, wenn ein Rückmeldung vom alten Kommando erhalten wurde. Ein Interrupt zum
+Stop der Maschine darf jedoch jederzeit gesendet werden.

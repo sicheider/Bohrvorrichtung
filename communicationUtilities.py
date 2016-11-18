@@ -155,8 +155,7 @@ class CommandSender(threading.Thread):
     """Class to send command requests and wait for command responses.
 
     Attributes:
-        * master: A class which wants to send command requests; must have a boolean attributes named "allowedToSend"
-        and and implement a method onResponse(response)
+        * master: A class which wants to send command requests; must have a boolean attributes named "allowedToSend" and and implement a method onResponse(response)
         * sendInterrupt: If true CommandSender sends an interrupt command to CommandReceiver
         * timeout: Blocking time for reading socket
         * s: socket, which is connected to a commandReceiver

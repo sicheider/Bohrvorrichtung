@@ -276,6 +276,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
 
     def stopMoving(self):
         """Stops the motor.
+
         Args:
             None
 

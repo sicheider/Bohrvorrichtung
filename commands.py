@@ -1,12 +1,23 @@
+"""
+This module defines all command request a command sender (such as gui or button) can send to
+the driller and their responses.
+"""
 REQUEST_STARTDRILLING = "startDrilling"
+"""Starts the drilling process."""
 REQUEST_RELOADDATA = "reloadData"
+"""The Processdata is reloaded from the processData file and is written to the motors."""
 REQUEST_DRIVEX1 = "driveToX1"
+"""Linear is driving to startposition of drilling."""
 REQUEST_DRIVEX2 = "driveToX2"
+"""Linear is driving to middleposition of drilling."""
 REQUEST_DRIVEX3 = "driveToX3"
+"""Linear is driving to endposition of drilling."""
+INTERRUPT = "interrupt"
+"""The driller is interrupted and stops all movement."""
 
 RESPONSE_SUCCESS = "success"
+"""When the operation was successfull."""
 RESPONSE_FAIL = "fail"
-
-INTERRUPT = "interrupt"
-
-INVALID_REQUEST = "invalidRequest"
+"""When the operation was unsuccessfull."""
+RESPONSE_INVALID_REQUEST = "invalidRequest"
+"""When a invalid request was send."""
