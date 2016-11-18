@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>commands module &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="next" title="communicationUtilities module" href="communicationUtilities.html" />
+    <link rel="prev" title="button module" href="button.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="communicationUtilities.html" title="communicationUtilities module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="button.html" title="button module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-commands">
+<span id="commands-module"></span><h1>commands module<a class="headerlink" href="#module-commands" title="Permalink to this headline">¶</a></h1>
+<p>This module defines all command request a command sender (such as gui or button) can send to
+the driller and their responses.</p>
+<dl class="data">
+<dt id="commands.INTERRUPT">
+<code class="descclassname">commands.</code><code class="descname">INTERRUPT</code><em class="property"> = 'interrupt'</em><a class="headerlink" href="#commands.INTERRUPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The driller is interrupted and stops all movement.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.REQUEST_DRIVEX1">
+<code class="descclassname">commands.</code><code class="descname">REQUEST_DRIVEX1</code><em class="property"> = 'driveToX1'</em><a class="headerlink" href="#commands.REQUEST_DRIVEX1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear is driving to startposition of drilling.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.REQUEST_DRIVEX2">
+<code class="descclassname">commands.</code><code class="descname">REQUEST_DRIVEX2</code><em class="property"> = 'driveToX2'</em><a class="headerlink" href="#commands.REQUEST_DRIVEX2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear is driving to middleposition of drilling.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.REQUEST_DRIVEX3">
+<code class="descclassname">commands.</code><code class="descname">REQUEST_DRIVEX3</code><em class="property"> = 'driveToX3'</em><a class="headerlink" href="#commands.REQUEST_DRIVEX3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Linear is driving to endposition of drilling.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.REQUEST_RELOADDATA">
+<code class="descclassname">commands.</code><code class="descname">REQUEST_RELOADDATA</code><em class="property"> = 'reloadData'</em><a class="headerlink" href="#commands.REQUEST_RELOADDATA" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Processdata is reloaded from the processData file and is written to the motors.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.REQUEST_STARTDRILLING">
+<code class="descclassname">commands.</code><code class="descname">REQUEST_STARTDRILLING</code><em class="property"> = 'startDrilling'</em><a class="headerlink" href="#commands.REQUEST_STARTDRILLING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the drilling process.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.RESPONSE_FAIL">
+<code class="descclassname">commands.</code><code class="descname">RESPONSE_FAIL</code><em class="property"> = 'fail'</em><a class="headerlink" href="#commands.RESPONSE_FAIL" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the operation was unsuccessfull.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.RESPONSE_INVALID_REQUEST">
+<code class="descclassname">commands.</code><code class="descname">RESPONSE_INVALID_REQUEST</code><em class="property"> = 'invalidRequest'</em><a class="headerlink" href="#commands.RESPONSE_INVALID_REQUEST" title="Permalink to this definition">¶</a></dt>
+<dd><p>When a invalid request was send.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="commands.RESPONSE_SUCCESS">
+<code class="descclassname">commands.</code><code class="descname">RESPONSE_SUCCESS</code><em class="property"> = 'success'</em><a class="headerlink" href="#commands.RESPONSE_SUCCESS" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the operation was successfull.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="button.html"
+                        title="previous chapter">button module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="communicationUtilities.html"
+                        title="next chapter">communicationUtilities module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/commands.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="communicationUtilities.html" title="communicationUtilities module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="button.html" title="button module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Überblick &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="prev" title="Welcome to Bohrvorrichtung’s documentation!" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Bohrvorrichtung Quellcodedokumentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Bohrvorrichtung’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="uberblick">
+<h1>Überblick<a class="headerlink" href="#uberblick" title="Permalink to this headline">¶</a></h1>
+<p>Das nachfolende Dokument soll die Funktionsweise, sowie den Quellcode der Felgenbohrmaschine
+dokumentieren. Die Bohrmaschine besteht im wesentlichen aus zwei Schrittmotoren. Einen
+zentralen Rotor, welcher für die Rotation und Positionierung der Felge zuständig ist und
+einer Lineareinheit, welche den Dremel positioniert und die Bohrbewegung ausführt.</p>
+<div class="section" id="ansteuerung-der-motoren">
+<h2>Ansteuerung der Motoren<a class="headerlink" href="#ansteuerung-der-motoren" title="Permalink to this headline">¶</a></h2>
+<p>In den Motoren sind mehrere Datensätze für zugehörige Motoroperationen gespeichert. Die wichtigsten
+Parameter eines Datensatzes sind:</p>
+<ul class="simple">
+<li>Schrittversatz: Die Positionsveränderung in Schritten</li>
+<li>Geschwindigkeit: Die Geschwindigkeit der Positionsveränderung in Hz (Schritte pro Sekunde)</li>
+<li>Bewegungsmodus: Inkremental (0) oder Absolut (1). Bei einer inkrementalen Bewegung werden die Schritte im Schrittversatz zur aktuellen Position hinzuaddiert. Bei einer absoluten Bewegung positioniert sich der Motor gemessen am Ausgangspunkt.</li>
+</ul>
+<p>Soll nun eine bestimmte Operation ausgeführt werden, so muss am Inputregister die entsprechende
+Operation ausgewählt werden und das Startflag gesetzt werden.</p>
+<p>Zusätzlich zu den gespeicherten Operationen kann eine ReturnToHome Operation durchgeführt werden.
+Hierbei fährt der Motor auf die Nullposition zurück. Die ReturnToHome Operation wird gestartet,
+indem das entsprechnede Bit am Inputregister gesetzt wird.</p>
+<p>Eine genauere Erläuterung zur Ansteuerung finded sich im Kapitel <a class="reference internal" href="#modbus-rs-485">Modbus/RS-485</a>,
+sowie im OrientalMotor Datenblatt Kapitel 5 und in der Softwaredokumentation.</p>
+<div class="section" id="rotor">
+<h3>Rotor<a class="headerlink" href="#rotor" title="Permalink to this headline">¶</a></h3>
+<p>Der zentrale Rotor besitzt nur einen Datensatz, welcher unter dem Index 0 gespeichert ist. Die
+zugehörige Operation rotiert die Felge um einen Bohrversatz.</p>
+</div>
+<div class="section" id="lineareinheit">
+<h3>Lineareinheit<a class="headerlink" href="#lineareinheit" title="Permalink to this headline">¶</a></h3>
+<p>In der Lineareinheit sind folgende Datensätze hinterlegt:</p>
+<ul class="simple">
+<li>Index 0: Verfahren zum Bohrausgangspunkt (Pos. 1 mit Geschw. 1)</li>
+<li>Index 1: Verfahren zum Bohrmittelpunkt (Pos. 2 mit Geschw. 2)</li>
+<li>Index 3: Verfahren zum Bohrendpunkt (Pos. 3 mit Geschw. 3)</li>
+<li>Index 4: Rückbewegung zum Bohrausgangspunkt (Pos. 1 mit Geschw. 4)</li>
+<li>Index 5: Verfahren zum Linearnullpunkt UNKALIBRIERT</li>
+</ul>
+<div class="figure align-center" id="id3">
+<img alt="_images/schemaLineareinheit.png" src="_images/schemaLineareinheit.png" />
+<p class="caption"><span class="caption-text">Positionen und Geschwindigkeiten der Lineareinheit</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="motorkonfiguration">
+<h2>Motorkonfiguration<a class="headerlink" href="#motorkonfiguration" title="Permalink to this headline">¶</a></h2>
+<p>Für eine funktionsfähige und fehlerfreie Kommunikation zwischen Steuerung und Schrittmotortreiber
+müssen die Treiber richtig konfiguriert sein. Folgende Einstellungen müssen überwacht werden:</p>
+<ul class="simple">
+<li>ID: Adresse des Motors im Modbusprotokoll</li>
+<li>Transmission rate (SW2): Serielle Übertragungsgeschwindigkeit</li>
+<li>Function settings switch (SW4): Protokollkonfiguration</li>
+<li>Terminierungswiderstände (TERM): Konfiguration der Terminierungswiderstände</li>
+</ul>
+<div class="section" id="id1">
+<h3>Rotor<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>ID: 5</li>
+<li>SW2: 1 (19200 BAUD)</li>
+<li>SW4-No.1: OFF</li>
+<li>SW4-No.2: ON</li>
+<li>TERM-No.1: ON</li>
+<li>TERM-No.2: OFF</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Lineareinheit<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>ID: 6</li>
+<li>SW2: 1 (19200 BAUD)</li>
+<li>SW4-No.1: OFF</li>
+<li>SW4-No.2: ON</li>
+<li>TERM-No.1: ON</li>
+<li>TERM-No.2: ON</li>
+</ul>
+</div>
+</div>
+<div class="section" id="modbus-rs-485">
+<h2>Modbus/RS-485<a class="headerlink" href="#modbus-rs-485" title="Permalink to this headline">¶</a></h2>
+<p>Die in <a class="reference internal" href="#ansteuerung-der-motoren">Ansteuerung der Motoren</a> beschriebenen Datensätze lassen sich mittels
+Motbus-RTU/RS-485 manipulieren. Modbus ist ein serielles
+Übertragungsprotokoll auf dem Master-Slave-Prinzip. Ein Master schickt Anforderungen an einen
+definierten Slave. Hat der Slave die Anfrage erhalten und bearbeitet schickt dieser eine
+Antwort an den Master. Die Steuerung der Felgenbohrmaschine benutzt folgende Anfragen:</p>
+<ul class="simple">
+<li>writeRegister: Schreibt einen Wert in ein Register des Motortreibers</li>
+<li>readRegister: Liest einen Wert aus einem Register des Motortreibers</li>
+</ul>
+<p>In den verschiedenen Treiberregistern werden Prozessparameter, wie z.B. Verfahrschritte,
+Verfahrgeschwindigkeit oder Beschleunigung des Motors gespeichert. Über das Inputregister (0x125)
+lässt sich der Motor starten und stoppen. Über das Outputregister (0x127) können mittels readRegister
+Statusinformationen über den Motor abgefragen werden. Eine genaue Dokumentation der Register
+und deren Inhalte, sowie zum Modbusprotokoll findet sich im OrientalMotor Datenblatt Kapitel 5.</p>
+</div>
+<div class="section" id="aufbau-der-mastersteuerung-software">
+<h2>Aufbau der Mastersteuerung/Software<a class="headerlink" href="#aufbau-der-mastersteuerung-software" title="Permalink to this headline">¶</a></h2>
+<p>Als Master der Modbuskommunikation kommt ein Rasperry Pi (RP) mit nachfolgend beschriebener Software zum Einsatz.
+Über einen USB zu RS-485 Konverter wird eine Verbindung zwichen RP und Schrittmotoren hergestellt. Der
+Konverter muss wie folgt konfiguriert sein:</p>
+<ul class="simple">
+<li>SW1: OFF</li>
+<li>SW2: OFF</li>
+<li>SW3: OFF</li>
+<li>SW4: OFF</li>
+</ul>
+<p>Auf dem RP läuft das Hauptprogramm der Bohrvorrichtung (<a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a>), welche auf einkommende
+Kommandos höhrt. Sobald ein Kommando empfangen wurde, wird dieses ausgeführt.</p>
+<p>Des Weiteren läuft ein Listenerprogramm, welches darauf wartet, dass der Druckknopf zum Starten gedrückt
+wird (<code class="xref py py-mod docutils literal"><span class="pre">button</span></code>). Wird der Knopf gedrückt, so sendet das Programm ein Startsignal an das Hauptprogramm.</p>
+<p>Außerdem kann manuell die grafische Operfläche gestartet werden (<code class="xref py py-mod docutils literal"><span class="pre">gui</span></code>). Die grafische Oberfläche
+stellt ebenfalls eine Verbindung zum Hauptprogramm her und sendet je nach Benutzereingabe verschiedene
+Signale an das Hauptprogramm.</p>
+<div class="section" id="aufbau-des-hauptprogramms">
+<h3>Aufbau des Hauptprogramms<a class="headerlink" href="#aufbau-des-hauptprogramms" title="Permalink to this headline">¶</a></h3>
+<p>Wie bereits in <a class="reference internal" href="#modbus-rs-485">Modbus/RS-485</a> erwähnt, werden die Schrittmotoren über das Modbusprotokoll angesteuert.
+<a class="reference internal" href="minimalmodbus.html#module-minimalmodbus" title="minimalmodbus"><code class="xref py py-mod docutils literal"><span class="pre">minimalmodbus</span></code></a> stellt grundlegende Funktionalitäten zur Modbuskommunikation zur Verfügung. Beispielsweise
+writeRegister (zum Schreiben von Prozessparametern) oder readRegister (zum Lesen von Prozessparametern).
+<a class="reference internal" href="stepperMotor.html#module-stepperMotor" title="stepperMotor"><code class="xref py py-mod docutils literal"><span class="pre">stepperMotor</span></code></a> erbt von <a class="reference internal" href="minimalmodbus.html#module-minimalmodbus" title="minimalmodbus"><code class="xref py py-mod docutils literal"><span class="pre">minimalmodbus</span></code></a> und stellt einen Schrittmotor dar. Mithilfe von
+<a class="reference internal" href="stepperMotor.html#module-stepperMotor" title="stepperMotor"><code class="xref py py-mod docutils literal"><span class="pre">stepperMotor</span></code></a> kann ein Schrittmotor angesteuert, also bewegt und konfiguriert, werden. Das Hauptprogramm
+(<a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a>) konstruiert sich nun zwei Instanzen von <a class="reference internal" href="stepperMotor.html#module-stepperMotor" title="stepperMotor"><code class="xref py py-mod docutils literal"><span class="pre">stepperMotor</span></code></a>, welche jeweils den
+Rotor beziehungsweise die Lineareinheit darstellen. Beim Initialisieren werden alle benötigten
+Prozessparameter aus der Datei &#8220;processData.json&#8221; geladen. Die Datei entspricht dem JSON Standard.
+Der gültige Aufbau wird in <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a> dokumentiert. Nach dem Initialisieren wird die
+Hauptschleife gestartet, welche auf einkommende Kommandos höhrt (definiert in <a class="reference internal" href="commands.html#module-commands" title="commands"><code class="xref py py-mod docutils literal"><span class="pre">commands</span></code></a>).</p>
+<div class="figure align-center" id="id4">
+<img alt="_images/bohrvorrichtungUML.png" src="_images/bohrvorrichtungUML.png" />
+<p class="caption"><span class="caption-text">UML Diagramm der Steuerungssoftware</span></p>
+</div>
+</div>
+<div class="section" id="aufbau-der-interprozesskommunikation">
+<h3>Aufbau der Interprozesskommunikation<a class="headerlink" href="#aufbau-der-interprozesskommunikation" title="Permalink to this headline">¶</a></h3>
+<p>Die Kommunikation zwischen <code class="xref py py-mod docutils literal"><span class="pre">gui</span></code>, <code class="xref py py-mod docutils literal"><span class="pre">button</span></code> und <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a> wird von
+<a class="reference internal" href="communicationUtilities.html#module-communicationUtilities" title="communicationUtilities"><code class="xref py py-mod docutils literal"><span class="pre">communicationUtilities</span></code></a> gesteuert. <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a> besitzt eine Instanz der Klasse
+<a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a> welche auf neue Verbindungen höhrt und Kommandos
+empfängt. Das Hauptprogramm kann dann empfangene Befehle aus der Warteschlange von
+<a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a> nehmen und nach deren Ausführung die entsprechende
+Antwort in die Ausgangswarteschlange von <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a> schreiben.</p>
+<p><code class="xref py py-mod docutils literal"><span class="pre">gui</span></code> und <code class="xref py py-mod docutils literal"><span class="pre">button</span></code> besitzen jeweils eine Instanz der Klasse
+<a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandSender" title="communicationUtilities.CommandSender"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandSender</span></code></a>,
+welche zuerst eine Verbindung zu <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a>
+aufbaut und danach Befehle an die Gegenseite verschicken kann. Eine Sender darf erst ein neues
+Kommando verschicken, wenn ein Rückmeldung vom alten Kommando erhalten wurde. Ein Interrupt zum
+Stop der Maschine darf jedoch jederzeit gesendet werden.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Überblick</a><ul>
+<li><a class="reference internal" href="#ansteuerung-der-motoren">Ansteuerung der Motoren</a><ul>
+<li><a class="reference internal" href="#rotor">Rotor</a></li>
+<li><a class="reference internal" href="#lineareinheit">Lineareinheit</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#motorkonfiguration">Motorkonfiguration</a><ul>
+<li><a class="reference internal" href="#id1">Rotor</a></li>
+<li><a class="reference internal" href="#id2">Lineareinheit</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modbus-rs-485">Modbus/RS-485</a></li>
+<li><a class="reference internal" href="#aufbau-der-mastersteuerung-software">Aufbau der Mastersteuerung/Software</a><ul>
+<li><a class="reference internal" href="#aufbau-des-hauptprogramms">Aufbau des Hauptprogramms</a></li>
+<li><a class="reference internal" href="#aufbau-der-interprozesskommunikation">Aufbau der Interprozesskommunikation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Bohrvorrichtung&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="next chapter">Bohrvorrichtung Quellcodedokumentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/überblick.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Bohrvorrichtung Quellcodedokumentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Bohrvorrichtung’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

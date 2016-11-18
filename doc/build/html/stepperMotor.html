@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>stepperMotor module &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="prev" title="minimalmodbus module" href="minimalmodbus.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="minimalmodbus.html" title="minimalmodbus module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-stepperMotor">
+<span id="steppermotor-module"></span><h1>stepperMotor module<a class="headerlink" href="#module-stepperMotor" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="stepperMotor.StepperMotor">
+<em class="property">class </em><code class="descclassname">stepperMotor.</code><code class="descname">StepperMotor</code><span class="sig-paren">(</span><em>name</em>, <em>adress</em>, <em>master</em>, <em>serialPort='/dev/ttyUSB0'</em>, <em>baudrate=19200</em>, <em>stopbits=1</em>, <em>parity='N'</em>, <em>timeout=0.05</em>, <em>standardWaitTime=0.02</em>, <em>waitForPingTime=0.2</em>, <em>maxFailCounter=50</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="minimalmodbus.html#minimalmodbus.Instrument" title="minimalmodbus.Instrument"><code class="xref py py-class docutils literal"><span class="pre">minimalmodbus.Instrument</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>An Oriental Motor stepper motor. This class uses minimalmodbus to
+communicate over Modbus/RS-485 with the motor.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Oriental Motors uses upper and lower registers (each 16 bit). Only lower registers are
+supported in this class. If you have to store values greater than 2**16 you have to use
+upper registers too.</p>
+</div>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first simple">
+<li>baudrate: The baudrate of the serial communication</li>
+<li>stopbits: Stopbit configuration of the serial communication</li>
+<li>parity: Parity configuration of the serial communication</li>
+<li>timeout: Modbus timeout</li>
+<li>waitForPingTime: Time between pings to the motor to check if its still moving</li>
+<li>standardWaitTime: Time to wait after each modbus communication</li>
+<li>maxFailCounter: If a communication failes maxFailCounter times a exception is raised</li>
+<li>master: An instance of the class which is controlling the motor. Must have an attribute named</li>
+</ul>
+<p class="last">&#8220;isInterrupted&#8221; and a method named &#8220;handleInterrupt&#8221;
+* registers: See oriental motor documentation</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em>, <em>adress</em>, <em>master</em>, <em>serialPort='/dev/ttyUSB0'</em>, <em>baudrate=19200</em>, <em>stopbits=1</em>, <em>parity='N'</em>, <em>timeout=0.05</em>, <em>standardWaitTime=0.02</em>, <em>waitForPingTime=0.2</em>, <em>maxFailCounter=50</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contructor. Initializes everything. See Attributes.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>name: The stepper motor name</li>
+<li>adress: The modbus adress of the motor</li>
+<li>serialport: The usb serial port which the motor is attached to</li>
+<li>rest: See class Attributes</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.getBitFromRegister">
+<code class="descname">getBitFromRegister</code><span class="sig-paren">(</span><em>adress</em>, <em>bit</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.getBitFromRegister" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a bit from a register.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>adress (int): Register adress</li>
+<li>bit (int): Number of the bit</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>True or False</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.getStatus">
+<code class="descname">getStatus</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.getStatus" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>message: The massage to wrap</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>A wrapped string containing name and message</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.goForward">
+<code class="descname">goForward</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.goForward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts forward moving of the motor.
+Args:</p>
+<blockquote>
+<div>None</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.goHome">
+<code class="descname">goHome</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.goHome" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drives the motor to home position.
+Args:</p>
+<blockquote>
+<div>None</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.goReverse">
+<code class="descname">goReverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.goReverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts reverse moving of the motor.
+Args:</p>
+<blockquote>
+<div>None</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.readRegisterSafe">
+<code class="descname">readRegisterSafe</code><span class="sig-paren">(</span><em>adress</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.readRegisterSafe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a value from a register making sure the communication was successfull.
+Raises an exception if the communication failes maxFailCounter times.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>adress (int): The adress to from</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.startOperation">
+<code class="descname">startOperation</code><span class="sig-paren">(</span><em>operationNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.startOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a operation which is stored in the operation registers.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>operationNumber (int): The operation number to start</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError if the operation number is invalid</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.stopMoving">
+<code class="descname">stopMoving</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.stopMoving" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the motor.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.waitFor">
+<code class="descname">waitFor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.waitFor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waits for the motor to finish the operation.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.writeOperationMode">
+<code class="descname">writeOperationMode</code><span class="sig-paren">(</span><em>operationMode</em>, <em>operationNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.writeOperationMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the operation mode for a operation number.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first simple">
+<li>operationMode (0|1): The operation mode for the operation. 0 for incremental,</li>
+</ul>
+<p class="last">1 for absolute
+* operationNumber (int)</p>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.writeOperationPosition">
+<code class="descname">writeOperationPosition</code><span class="sig-paren">(</span><em>operationPosition</em>, <em>operationNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.writeOperationPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the operation position for a operation number.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>operationPosition (int): The steps to move for the operation number</li>
+<li>operationNumber (int)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.writeOperationSpeed">
+<code class="descname">writeOperationSpeed</code><span class="sig-paren">(</span><em>operationSpeed</em>, <em>operationNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.writeOperationSpeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the operation speed for a operation number.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>operationSpeed (int): The speed in Hz the operation is performed</li>
+<li>operationNumber (int)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.writeRegisterSafe">
+<code class="descname">writeRegisterSafe</code><span class="sig-paren">(</span><em>adress</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.writeRegisterSafe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a value to a register making sure the communication was successfull.
+Raises an exception if the communication failes maxFailCounter times.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>adress (int): The adress to write to</li>
+<li>value (int): The value to write</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="stepperMotor.StepperMotor.writeToInputRegister">
+<code class="descname">writeToInputRegister</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.writeToInputRegister" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a value to the input register and resets it.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="minimalmodbus.html"
+                        title="previous chapter">minimalmodbus module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/stepperMotor.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="minimalmodbus.html" title="minimalmodbus module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

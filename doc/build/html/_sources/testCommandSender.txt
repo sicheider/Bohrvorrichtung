@@ -1,0 +1,7 @@
+testCommandSender module
+========================
+
+.. automodule:: testCommandSender
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+testCommandReceiver module
+==========================
+
+.. automodule:: testCommandReceiver
+    :members:
+    :undoc-members:
+    :show-inheritance:

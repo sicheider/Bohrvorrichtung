@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>communicationUtilities module &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="next" title="gui module" href="gui.html" />
+    <link rel="prev" title="commands module" href="commands.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gui.html" title="gui module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="commands module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-communicationUtilities">
+<span id="communicationutilities-module"></span><h1>communicationUtilities module<a class="headerlink" href="#module-communicationUtilities" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="communicationUtilities.CommandReceiver">
+<em class="property">class </em><code class="descclassname">communicationUtilities.</code><code class="descname">CommandReceiver</code><span class="sig-paren">(</span><em>master</em>, <em>host=''</em>, <em>port=54321</em>, <em>timeout=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandReceiver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></p>
+<p>Receives command requests and sends command responses.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>master: A class that handles the commands; must have a boolean attribute named &#8220;isInterrupted&#8221;</li>
+<li>connections: A list where all connections are stored</li>
+<li>commandRequests: A queue where all received (commandRequests, con) are stored</li>
+<li>commandResponses: A queue where all (commandResponses, con) are stored, which have to be send</li>
+<li>timeout: Blocking time for reading sockets</li>
+<li>ca: An instance of ConnectionAcceptor which accepts new connections and writes them to connections</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="communicationUtilities.CommandReceiver.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>master</em>, <em>host=''</em>, <em>port=54321</em>, <em>timeout=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandReceiver.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor; sets attributes and starts ConnectionAcceptor</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>see Attributes</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.CommandReceiver.receiveCommandRequests">
+<code class="descname">receiveCommandRequests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandReceiver.receiveCommandRequests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads all incoming command requests and writes them to commandRequests.
+Interrupts the master, if necessary.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.CommandReceiver.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandReceiver.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts main receiving and sending loop in a thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.CommandReceiver.sendCommandResponses">
+<code class="descname">sendCommandResponses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandReceiver.sendCommandResponses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends all command responses stored in commandResponses.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="communicationUtilities.CommandSender">
+<em class="property">class </em><code class="descclassname">communicationUtilities.</code><code class="descname">CommandSender</code><span class="sig-paren">(</span><em>master</em>, <em>host='localhost'</em>, <em>port=54321</em>, <em>timeout=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandSender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></p>
+<p>Class to send command requests and wait for command responses.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>master: A class which wants to send command requests; must have a boolean attributes named &#8220;allowedToSend&#8221; and and implement a method onResponse(response)</li>
+<li>sendInterrupt: If true CommandSender sends an interrupt command to CommandReceiver</li>
+<li>timeout: Blocking time for reading socket</li>
+<li>s: socket, which is connected to a commandReceiver</li>
+<li>commandRequestToSend: The command which will be send in the next iteration of the main loop</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="communicationUtilities.CommandSender.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>master</em>, <em>host='localhost'</em>, <em>port=54321</em>, <em>timeout=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandSender.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor; sets attributes and connects the socket to a CommandReceiver.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>host: host to connect to</li>
+<li>port: port to connect to</li>
+<li>rest: see attributes</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.CommandSender.receiveResponse">
+<code class="descname">receiveResponse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandSender.receiveResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waits until a command response has arrived. Sends an interrupt command if necessary.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.CommandSender.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandSender.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.CommandSender.sendRequest">
+<code class="descname">sendRequest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.CommandSender.sendRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the commandRequestToSend request to a CommandReceiver. Waits for the response in a thread.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="communicationUtilities.ConnectionAcceptor">
+<em class="property">class </em><code class="descclassname">communicationUtilities.</code><code class="descname">ConnectionAcceptor</code><span class="sig-paren">(</span><em>master</em>, <em>host</em>, <em>port</em><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.ConnectionAcceptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></p>
+<p>Class for accepting new socet connections in a thread.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>master: Class which handles the connections; must have a list as attribute named &#8220;connections&#8221;</li>
+<li>host: host ipadress</li>
+<li>port: port to listen</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="communicationUtilities.ConnectionAcceptor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>master</em>, <em>host</em>, <em>port</em><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.ConnectionAcceptor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor; sets the attributes.
+Args:</p>
+<blockquote>
+<div>see Attributes</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="communicationUtilities.ConnectionAcceptor.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#communicationUtilities.ConnectionAcceptor.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start main listeningloop and writes new connections to connectionWorker.connections.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="commands.html"
+                        title="previous chapter">commands module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gui.html"
+                        title="next chapter">gui module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/communicationUtilities.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gui.html" title="gui module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="commands module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

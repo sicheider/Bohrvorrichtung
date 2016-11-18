@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui module &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="next" title="minimalmodbus module" href="minimalmodbus.html" />
+    <link rel="prev" title="communicationUtilities module" href="communicationUtilities.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="minimalmodbus.html" title="minimalmodbus module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="communicationUtilities.html" title="communicationUtilities module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-gui">
+<span id="gui-module"></span><h1>gui module<a class="headerlink" href="#module-gui" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="gui.Gui">
+<em class="property">class </em><code class="descclassname">gui.</code><code class="descname">Gui</code><a class="headerlink" href="#gui.Gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt4.QtGui.QDialog</span></code></p>
+<p>The gui to configure the driller.</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>receivedResponse: The signal which is emmited if the gui has received an answer</li>
+<li>ui: The interface</li>
+<li>cs: The sender which sends commands to the driller</li>
+<li>allowedToSend: A flag which indicates, if the gui is allowed to send commands</li>
+<li>allProcessData: A list of dictionarys which stores all process data. See <a class="reference internal" href="#gui.Gui.loadAllProcessData" title="gui.Gui.loadAllProcessData"><code class="xref py py-meth docutils literal"><span class="pre">loadAllProcessData()</span></code></a></li>
+<li>allProcessDataFileName: The json file where all process data are stored</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="gui.Gui.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.closeEvent">
+<code class="descname">closeEvent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.closeEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.disableWidgets">
+<code class="descname">disableWidgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.disableWidgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables all widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.enableWidgets">
+<code class="descname">enableWidgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.enableWidgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables all widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.getDataFromEdits">
+<code class="descname">getDataFromEdits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.getDataFromEdits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads from input edits.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
+<dt>Returns:</dt>
+<dd>A dict with process data information. See <a class="reference internal" href="#gui.Gui.loadAllProcessData" title="gui.Gui.loadAllProcessData"><code class="xref py py-meth docutils literal"><span class="pre">loadAllProcessData()</span></code></a></dd>
+<dt>Raises:</dt>
+<dd>ValueError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.getProcessDataByName">
+<code class="descname">getProcessDataByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.getProcessDataByName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.loadAllProcessData">
+<code class="descname">loadAllProcessData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.loadAllProcessData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads all process data from the json file and stores them into allProcessData.
+One process data must define the following:</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>holeNumber: The ammount of holes</li>
+<li>rotorSteps: The steps for each rotor move</li>
+<li>rotorOperationSpeed</li>
+<li>rotorOperationMode</li>
+<li>x1: The position where drilling starts</li>
+<li>x2: The middleposition of drilling</li>
+<li>x3: The position where drilling ends</li>
+<li>x4: The position where drilling starts</li>
+<li>x5: Nullposition</li>
+<li>v1: Speed to x1</li>
+<li>v2: Speed to x2</li>
+<li>v3: Speed to x3</li>
+<li>v4: Speed to x4</li>
+<li>v5: Speed to x5</li>
+<li>mode1</li>
+<li>mode2</li>
+<li>mode3</li>
+<li>mode4</li>
+<li>mode5</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onComboBoxChanged">
+<code class="descname">onComboBoxChanged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onComboBoxChanged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates gui after combo box index change.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onDeleteButtonClicked">
+<code class="descname">onDeleteButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onDeleteButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes current process data and updates allProcess data file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onDriveToX1ButtonClicked">
+<code class="descname">onDriveToX1ButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onDriveToX1ButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onDriveToX2ButtonClicked">
+<code class="descname">onDriveToX2ButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onDriveToX2ButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onDriveToX3ButtonClicked">
+<code class="descname">onDriveToX3ButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onDriveToX3ButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onReceiveResponseEvent">
+<code class="descname">onReceiveResponseEvent</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onReceiveResponseEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when a response was received. Displays respone information
+and enables widges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onResponse">
+<code class="descname">onResponse</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onSaveButtonClicked">
+<code class="descname">onSaveButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onSaveButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves current process data to allProcessData and writes it to file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onSaveDataAndLoadButtonClicked">
+<code class="descname">onSaveDataAndLoadButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onSaveDataAndLoadButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves process data and sends reload command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onStartButtonClicked">
+<code class="descname">onStartButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onStartButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.onStopButtonClicked">
+<code class="descname">onStopButtonClicked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.onStopButtonClicked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gui.Gui.receivedResponse">
+<code class="descname">receivedResponse</code><a class="headerlink" href="#gui.Gui.receivedResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.refreshDataEdits">
+<code class="descname">refreshDataEdits</code><span class="sig-paren">(</span><em>processData</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.refreshDataEdits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refreshes input edits with given values.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>processData: A dict with process data. See <a class="reference internal" href="#gui.Gui.loadAllProcessData" title="gui.Gui.loadAllProcessData"><code class="xref py py-meth docutils literal"><span class="pre">loadAllProcessData()</span></code></a></li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="communicationUtilities.html"
+                        title="previous chapter">communicationUtilities module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="minimalmodbus.html"
+                        title="next chapter">minimalmodbus module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/gui.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="minimalmodbus.html" title="minimalmodbus module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="communicationUtilities.html" title="communicationUtilities module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

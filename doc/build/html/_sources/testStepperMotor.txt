@@ -1,0 +1,7 @@
+testStepperMotor module
+=======================
+
+.. automodule:: testStepperMotor
+    :members:
+    :undoc-members:
+    :show-inheritance:

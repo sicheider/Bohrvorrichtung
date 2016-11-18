@@ -1,0 +1,7 @@
+felgenBohrer module
+===================
+
+.. automodule:: felgenBohrer
+    :members:
+    :undoc-members:
+    :show-inheritance:

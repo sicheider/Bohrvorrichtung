@@ -1,0 +1,595 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>minimalmodbus module &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="next" title="stepperMotor module" href="stepperMotor.html" />
+    <link rel="prev" title="gui module" href="gui.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stepperMotor.html" title="stepperMotor module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gui.html" title="gui module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-minimalmodbus">
+<span id="minimalmodbus-module"></span><h1>minimalmodbus module<a class="headerlink" href="#module-minimalmodbus" title="Permalink to this headline">¶</a></h1>
+<p>MinimalModbus: A Python driver for the Modbus RTU and Modbus ASCII protocols via serial port (via RS485 or RS232).</p>
+<dl class="data">
+<dt id="minimalmodbus.BAUDRATE">
+<code class="descclassname">minimalmodbus.</code><code class="descname">BAUDRATE</code><em class="property"> = 19200</em><a class="headerlink" href="#minimalmodbus.BAUDRATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for the baudrate in Baud (int).</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="minimalmodbus.BYTESIZE">
+<code class="descclassname">minimalmodbus.</code><code class="descname">BYTESIZE</code><em class="property"> = 8</em><a class="headerlink" href="#minimalmodbus.BYTESIZE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for the bytesize (int).</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="minimalmodbus.CLOSE_PORT_AFTER_EACH_CALL">
+<code class="descclassname">minimalmodbus.</code><code class="descname">CLOSE_PORT_AFTER_EACH_CALL</code><em class="property"> = False</em><a class="headerlink" href="#minimalmodbus.CLOSE_PORT_AFTER_EACH_CALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for port closure setting.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="minimalmodbus.Instrument">
+<em class="property">class </em><code class="descclassname">minimalmodbus.</code><code class="descname">Instrument</code><span class="sig-paren">(</span><em>port</em>, <em>slaveaddress</em>, <em>mode='rtu'</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Instrument class for talking to instruments (slaves) via the Modbus RTU or ASCII protocols (via RS485 or RS232).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>port (str): The serial port name, for example <code class="docutils literal"><span class="pre">/dev/ttyUSB0</span></code> (Linux), <code class="docutils literal"><span class="pre">/dev/tty.usbserial</span></code> (OS X) or <code class="docutils literal"><span class="pre">COM4</span></code> (Windows).</li>
+<li>slaveaddress (int): Slave address in the range 1 to 247 (use decimal numbers, not hex).</li>
+<li>mode (str): Mode selection. Can be MODE_RTU or MODE_ASCII.</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="minimalmodbus.Instrument.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>port</em>, <em>slaveaddress</em>, <em>mode='rtu'</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="minimalmodbus.Instrument.address">
+<code class="descname">address</code><em class="property"> = None</em><a class="headerlink" href="#minimalmodbus.Instrument.address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slave address (int). Most often set by the constructor (see the class documentation).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="minimalmodbus.Instrument.close_port_after_each_call">
+<code class="descname">close_port_after_each_call</code><em class="property"> = None</em><a class="headerlink" href="#minimalmodbus.Instrument.close_port_after_each_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this is <code class="xref py py-const docutils literal"><span class="pre">True</span></code>, the serial port will be closed after each call. Defaults to <a class="reference internal" href="#minimalmodbus.CLOSE_PORT_AFTER_EACH_CALL" title="minimalmodbus.CLOSE_PORT_AFTER_EACH_CALL"><code class="xref py py-data docutils literal"><span class="pre">CLOSE_PORT_AFTER_EACH_CALL</span></code></a>. To change it, set the value <code class="docutils literal"><span class="pre">minimalmodbus.CLOSE_PORT_AFTER_EACH_CALL=True</span></code> .</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="minimalmodbus.Instrument.debug">
+<code class="descname">debug</code><em class="property"> = None</em><a class="headerlink" href="#minimalmodbus.Instrument.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set this to <code class="xref py py-const docutils literal"><span class="pre">True</span></code> to print the communication details. Defaults to <code class="xref py py-const docutils literal"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="minimalmodbus.Instrument.handle_local_echo">
+<code class="descname">handle_local_echo</code><em class="property"> = None</em><a class="headerlink" href="#minimalmodbus.Instrument.handle_local_echo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set to to <code class="xref py py-const docutils literal"><span class="pre">True</span></code> if your RS-485 adaptor has local echo enabled.
+Then the transmitted message will immeadiately appear at the receive line of the RS-485 adaptor.
+MinimalModbus will then read and discard this data, before reading the data from the slave.
+Defaults to <code class="xref py py-const docutils literal"><span class="pre">False</span></code>.</p>
+<p>New in version 0.7.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="minimalmodbus.Instrument.mode">
+<code class="descname">mode</code><em class="property"> = None</em><a class="headerlink" href="#minimalmodbus.Instrument.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slave mode (str), can be MODE_RTU or MODE_ASCII.  Most often set by the constructor (see the class documentation).</p>
+<p>New in version 0.6.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="minimalmodbus.Instrument.precalculate_read_size">
+<code class="descname">precalculate_read_size</code><em class="property"> = None</em><a class="headerlink" href="#minimalmodbus.Instrument.precalculate_read_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this is <code class="xref py py-const docutils literal"><span class="pre">False</span></code>, the serial port reads until timeout
+instead of just reading a specific number of bytes. Defaults to <code class="xref py py-const docutils literal"><span class="pre">True</span></code>.</p>
+<p>New in version 0.5.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.read_bit">
+<code class="descname">read_bit</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>functioncode=2</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.read_bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read one bit from the slave.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register address (use decimal numbers, not hex).</li>
+<li>functioncode (int): Modbus function code. Can be 1 or 2.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>The bit value 0 or 1 (int).</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.read_float">
+<code class="descname">read_float</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>functioncode=3</em>, <em>numberOfRegisters=2</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.read_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a floating point number from the slave.</p>
+<p>Floats are stored in two or more consecutive 16-bit registers in the slave. The
+encoding is according to the standard IEEE 754.</p>
+<p>There are differences in the byte order used by different manufacturers. A floating
+point value of 1.0 is encoded (in single precision) as 3f800000 (hex). In this
+implementation the data will be sent as <code class="docutils literal"><span class="pre">'\x3f\x80'</span></code> and <code class="docutils literal"><span class="pre">'\x00\x00'</span></code>
+to two consecutetive registers . Make sure to test that it makes sense for your instrument.
+It is pretty straight-forward to change this code if some other byte order is
+required by anyone (see support section).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address (use decimal numbers, not hex).</li>
+<li>functioncode (int): Modbus function code. Can be 3 or 4.</li>
+<li>numberOfRegisters (int): The number of registers allocated for the float. Can be 2 or 4.</li>
+</ul>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="20%" />
+<col width="13%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type of floating point number in slave</th>
+<th class="head">Size</th>
+<th class="head">Registers</th>
+<th class="head">Range</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Single precision (binary32)</td>
+<td>32 bits (4 bytes)</td>
+<td>2 registers</td>
+<td>1.4E-45 to 3.4E38</td>
+</tr>
+<tr class="row-odd"><td>Double precision (binary64)</td>
+<td>64 bits (8 bytes)</td>
+<td>4 registers</td>
+<td>5E-324 to 1.8E308</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>The numerical value (float).</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.read_long">
+<code class="descname">read_long</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>functioncode=3</em>, <em>signed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.read_long" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a long integer (32 bits) from the slave.</p>
+<p>Long integers (32 bits = 4 bytes) are stored in two consecutive 16-bit registers in the slave.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address (use decimal numbers, not hex).</li>
+<li>functioncode (int): Modbus function code. Can be 3 or 4.</li>
+<li>signed (bool): Whether the data should be interpreted as unsigned or signed.</li>
+</ul>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="24%" />
+<col width="22%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal"><span class="pre">signed</span></code></th>
+<th class="head">Data type in slave</th>
+<th class="head">Alternative name</th>
+<th class="head">Range</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="xref py py-const docutils literal"><span class="pre">False</span></code></td>
+<td>Unsigned INT32</td>
+<td>Unsigned long</td>
+<td>0 to 4294967295</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-const docutils literal"><span class="pre">True</span></code></td>
+<td>INT32</td>
+<td>Long</td>
+<td>-2147483648 to 2147483647</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>The numerical value (int).</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.read_register">
+<code class="descname">read_register</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>numberOfDecimals=0</em>, <em>functioncode=3</em>, <em>signed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.read_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an integer from one 16-bit register in the slave, possibly scaling it.</p>
+<p>The slave register can hold integer values in the range 0 to 65535 (&#8220;Unsigned INT16&#8221;).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register address (use decimal numbers, not hex).</li>
+<li>numberOfDecimals (int): The number of decimals for content conversion.</li>
+<li>functioncode (int): Modbus function code. Can be 3 or 4.</li>
+<li>signed (bool): Whether the data should be interpreted as unsigned or signed.</li>
+</ul>
+</dd>
+</dl>
+<p>If a value of 77.0 is stored internally in the slave register as 770, then use <code class="docutils literal"><span class="pre">numberOfDecimals=1</span></code>
+which will divide the received data by 10 before returning the value.</p>
+<p>Similarly <code class="docutils literal"><span class="pre">numberOfDecimals=2</span></code> will divide the received data by 100 before returning the value.</p>
+<p>Some manufacturers allow negative values for some registers. Instead of
+an allowed integer range 0 to 65535, a range -32768 to 32767 is allowed. This is
+implemented as any received value in the upper range (32768 to 65535) is
+interpreted as negative value (in the range -32768 to -1).</p>
+<p>Use the parameter <code class="docutils literal"><span class="pre">signed=True</span></code> if reading from a register that can hold
+negative values. Then upper range data will be automatically converted into
+negative return values (two&#8217;s complement).</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="29%" />
+<col width="25%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal"><span class="pre">signed</span></code></th>
+<th class="head">Data type in slave</th>
+<th class="head">Alternative name</th>
+<th class="head">Range</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="xref py py-const docutils literal"><span class="pre">False</span></code></td>
+<td>Unsigned INT16</td>
+<td>Unsigned short</td>
+<td>0 to 65535</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-const docutils literal"><span class="pre">True</span></code></td>
+<td>INT16</td>
+<td>Short</td>
+<td>-32768 to 32767</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>The register data in numerical value (int or float).</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.read_registers">
+<code class="descname">read_registers</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>numberOfRegisters</em>, <em>functioncode=3</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.read_registers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read integers from 16-bit registers in the slave.</p>
+<p>The slave registers can hold integer values in the range 0 to 65535 (&#8220;Unsigned INT16&#8221;).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address (use decimal numbers, not hex).</li>
+<li>numberOfRegisters (int): The number of registers to read.</li>
+<li>functioncode (int): Modbus function code. Can be 3 or 4.</li>
+</ul>
+</dd>
+</dl>
+<p>Any scaling of the register data, or converting it to negative number (two&#8217;s complement)
+must be done manually.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>The register data (a list of int).</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.read_string">
+<code class="descname">read_string</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>numberOfRegisters=16</em>, <em>functioncode=3</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.read_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a string from the slave.</p>
+<p>Each 16-bit register in the slave are interpreted as two characters (1 byte = 8 bits).
+For example 16 consecutive registers can hold 32 characters (32 bytes).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address (use decimal numbers, not hex).</li>
+<li>numberOfRegisters (int): The number of registers allocated for the string.</li>
+<li>functioncode (int): Modbus function code. Can be 3 or 4.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>The string (str).</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.write_bit">
+<code class="descname">write_bit</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>value</em>, <em>functioncode=5</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.write_bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write one bit to the slave.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register address (use decimal numbers, not hex).</li>
+<li>value (int): 0 or 1</li>
+<li>functioncode (int): Modbus function code. Can be 5 or 15.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.write_float">
+<code class="descname">write_float</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>value</em>, <em>numberOfRegisters=2</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.write_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a floating point number to the slave.</p>
+<p>Floats are stored in two or more consecutive 16-bit registers in the slave.</p>
+<p>Uses Modbus function code 16.</p>
+<p>For discussion on precision, number of registers and on byte order, see <a class="reference internal" href="#minimalmodbus.Instrument.read_float" title="minimalmodbus.Instrument.read_float"><code class="xref py py-meth docutils literal"><span class="pre">read_float()</span></code></a>.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address (use decimal numbers, not hex).</li>
+<li>value (float or int): The value to store in the slave</li>
+<li>numberOfRegisters (int): The number of registers allocated for the float. Can be 2 or 4.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.write_long">
+<code class="descname">write_long</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>value</em>, <em>signed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.write_long" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a long integer (32 bits) to the slave.</p>
+<p>Long integers (32 bits = 4 bytes) are stored in two consecutive 16-bit registers in the slave.</p>
+<p>Uses Modbus function code 16.</p>
+<p>For discussion on number of bits, number of registers, the range
+and on alternative names, see <a class="reference internal" href="#minimalmodbus.Instrument.read_long" title="minimalmodbus.Instrument.read_long"><code class="xref py py-meth docutils literal"><span class="pre">read_long()</span></code></a>.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address  (use decimal numbers, not hex).</li>
+<li>value (int or long): The value to store in the slave.</li>
+<li>signed (bool): Whether the data should be interpreted as unsigned or signed.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.write_register">
+<code class="descname">write_register</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>value</em>, <em>numberOfDecimals=0</em>, <em>functioncode=16</em>, <em>signed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.write_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an integer to one 16-bit register in the slave, possibly scaling it.</p>
+<p>The slave register can hold integer values in the range 0 to 65535 (&#8220;Unsigned INT16&#8221;).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register address  (use decimal numbers, not hex).</li>
+<li>value (int or float): The value to store in the slave register (might be scaled before sending).</li>
+<li>numberOfDecimals (int): The number of decimals for content conversion.</li>
+<li>functioncode (int): Modbus function code. Can be 6 or 16.</li>
+<li>signed (bool): Whether the data should be interpreted as unsigned or signed.</li>
+</ul>
+</dd>
+</dl>
+<p>To store for example <code class="docutils literal"><span class="pre">value=77.0</span></code>, use <code class="docutils literal"><span class="pre">numberOfDecimals=1</span></code> if the slave register will hold it as 770 internally.
+This will multiply <code class="docutils literal"><span class="pre">value</span></code> by 10 before sending it to the slave register.</p>
+<p>Similarly <code class="docutils literal"><span class="pre">numberOfDecimals=2</span></code> will multiply <code class="docutils literal"><span class="pre">value</span></code> by 100 before sending it to the slave register.</p>
+<p>For discussion on negative values, the range and on alternative names, see <a class="reference internal" href="#minimalmodbus.Instrument.read_register" title="minimalmodbus.Instrument.read_register"><code class="xref py py-meth docutils literal"><span class="pre">read_register()</span></code></a>.</p>
+<p>Use the parameter <code class="docutils literal"><span class="pre">signed=True</span></code> if writing to a register that can hold
+negative values. Then negative input will be automatically converted into
+upper range data (two&#8217;s complement).</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.write_registers">
+<code class="descname">write_registers</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.write_registers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write integers to 16-bit registers in the slave.</p>
+<p>The slave register can hold integer values in the range 0 to 65535 (&#8220;Unsigned INT16&#8221;).</p>
+<p>Uses Modbus function code 16.</p>
+<p>The number of registers that will be written is defined by the length of the <code class="docutils literal"><span class="pre">values</span></code> list.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address (use decimal numbers, not hex).</li>
+<li>values (list of int): The values to store in the slave registers.</li>
+</ul>
+</dd>
+</dl>
+<p>Any scaling of the register data, or converting it to negative number (two&#8217;s complement)
+must be done manually.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="minimalmodbus.Instrument.write_string">
+<code class="descname">write_string</code><span class="sig-paren">(</span><em>registeraddress</em>, <em>textstring</em>, <em>numberOfRegisters=16</em><span class="sig-paren">)</span><a class="headerlink" href="#minimalmodbus.Instrument.write_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a string to the slave.</p>
+<p>Each 16-bit register in the slave are interpreted as two characters (1 byte = 8 bits).
+For example 16 consecutive registers can hold 32 characters (32 bytes).</p>
+<p>Uses Modbus function code 16.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>registeraddress (int): The slave register start address  (use decimal numbers, not hex).</li>
+<li>textstring (str): The string to store in the slave</li>
+<li>numberOfRegisters (int): The number of registers allocated for the string.</li>
+</ul>
+</dd>
+</dl>
+<p>If the textstring is longer than the 2*numberOfRegisters, an error is raised.
+Shorter strings are padded with spaces.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>ValueError, TypeError, IOError</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="minimalmodbus.PARITY">
+<code class="descclassname">minimalmodbus.</code><code class="descname">PARITY</code><em class="property"> = 'N'</em><a class="headerlink" href="#minimalmodbus.PARITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for the parity. See the pySerial module for documentation. Defaults to serial.PARITY_NONE</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="minimalmodbus.STOPBITS">
+<code class="descclassname">minimalmodbus.</code><code class="descname">STOPBITS</code><em class="property"> = 1</em><a class="headerlink" href="#minimalmodbus.STOPBITS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for the number of stopbits (int).</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="minimalmodbus.TIMEOUT">
+<code class="descclassname">minimalmodbus.</code><code class="descname">TIMEOUT</code><em class="property"> = 0.05</em><a class="headerlink" href="#minimalmodbus.TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for the timeout value in seconds (float).</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gui.html"
+                        title="previous chapter">gui module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stepperMotor.html"
+                        title="next chapter">stepperMotor module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/minimalmodbus.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stepperMotor.html" title="stepperMotor module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gui.html" title="gui module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

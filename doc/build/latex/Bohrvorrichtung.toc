@@ -1,0 +1,22 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}\IeC {\"U}berblick}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Ansteuerung der Motoren}{3}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Rotor}{3}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Lineareinheit}{3}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Motorkonfiguration}{4}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Rotor}{4}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Lineareinheit}{4}{subsection.1.2.2}
+\contentsline {section}{\numberline {1.3}Modbus/RS-485}{5}{section.1.3}
+\contentsline {section}{\numberline {1.4}Aufbau der Mastersteuerung/Software}{5}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}Aufbau des Hauptprogramms}{5}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}Aufbau der Interprozesskommunikation}{6}{subsection.1.4.2}
+\contentsline {chapter}{\numberline {2}Bohrvorrichtung Quellcodedokumentation}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1}bohrvorrichtung module}{7}{section.2.1}
+\contentsline {section}{\numberline {2.2}button module}{8}{section.2.2}
+\contentsline {section}{\numberline {2.3}commands module}{9}{section.2.3}
+\contentsline {section}{\numberline {2.4}communicationUtilities module}{9}{section.2.4}
+\contentsline {section}{\numberline {2.5}gui module}{11}{section.2.5}
+\contentsline {section}{\numberline {2.6}minimalmodbus module}{13}{section.2.6}
+\contentsline {section}{\numberline {2.7}stepperMotor module}{18}{section.2.7}
+\contentsline {chapter}{Python Module Index}{23}{section*.103}
+\contentsline {chapter}{Index}{25}{section*.104}

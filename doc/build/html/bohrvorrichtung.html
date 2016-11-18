@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bohrvorrichtung module &#8212; Bohrvorrichtung 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
+    <link rel="next" title="button module" href="button.html" />
+    <link rel="prev" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="button.html" title="button module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Bohrvorrichtung Quellcodedokumentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-bohrvorrichtung">
+<span id="bohrvorrichtung-module"></span><h1>bohrvorrichtung module<a class="headerlink" href="#module-bohrvorrichtung" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bohrvorrichtung.Bohrvorrichtung">
+<em class="property">class </em><code class="descclassname">bohrvorrichtung.</code><code class="descname">Bohrvorrichtung</code><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The actual driller. Starts listening on commands when <a class="reference internal" href="#bohrvorrichtung.Bohrvorrichtung.start" title="bohrvorrichtung.Bohrvorrichtung.start"><code class="xref py py-meth docutils literal"><span class="pre">start()</span></code></a> is called!</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>rotor: The rotor stepper motor</li>
+<li>linear: The linear stepper motor</li>
+<li>isInterrupted: Flag if driller is interrupted or not</li>
+<li>mainLoopWaitTime: Timeout for mainloop</li>
+<li>cr: Instance of CommandReceiver; Handles all incoming command requests</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor. Initializes everythin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.driveLinearTo">
+<code class="descname">driveLinearTo</code><span class="sig-paren">(</span><em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.driveLinearTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drives linear to given position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.handleCommand">
+<code class="descname">handleCommand</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.handleCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a incomming command and performs an action.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>SUCCESS, FAIL or INVALID_REQUEST</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.handleInterrupt">
+<code class="descname">handleInterrupt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.handleInterrupt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interrupts the driller. All motors are STOPPED.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.loadProcessData">
+<code class="descname">loadProcessData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.loadProcessData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads process data from json file. The json file must define:</p>
+<dl class="docutils">
+<dt>Attributes:</dt>
+<dd><ul class="first last simple">
+<li>holeNumber: The ammount of holes</li>
+<li>rotorSteps: The steps for each rotor move</li>
+<li>rotorOperationSpeed</li>
+<li>rotorOperationMode</li>
+<li>x1: The position where drilling starts</li>
+<li>x2: The middleposition of drilling</li>
+<li>x3: The position where drilling ends</li>
+<li>x4: The position where drilling starts</li>
+<li>x5: Nullposition</li>
+<li>v1: Speed to x1</li>
+<li>v2: Speed to x2</li>
+<li>v3: Speed to x3</li>
+<li>v4: Speed to x4</li>
+<li>v5: Speed to x5</li>
+<li>mode1</li>
+<li>mode2</li>
+<li>mode3</li>
+<li>mode4</li>
+<li>mode5</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.processDataToDevice">
+<code class="descname">processDataToDevice</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.processDataToDevice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads and writes process data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.sayHello">
+<code class="descname">sayHello</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.sayHello" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process initial movement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts mainloop and listens to incoming commands.
+For valid commands see <a class="reference internal" href="commands.html#module-commands" title="commands"><code class="xref py py-mod docutils literal"><span class="pre">commands</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.startDrilling">
+<code class="descname">startDrilling</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.startDrilling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform drilling process.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.writeProcessData">
+<code class="descname">writeProcessData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.writeProcessData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes process data to stepper motor registers.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">Bohrvorrichtung Quellcodedokumentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="button.html"
+                        title="next chapter">button module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bohrvorrichtung.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="button.html" title="button module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="Bohrvorrichtung Quellcodedokumentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Bohrvorrichtung 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Bohrvorrichtung Quellcodedokumentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Simon Heider.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>
