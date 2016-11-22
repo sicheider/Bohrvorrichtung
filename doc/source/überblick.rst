@@ -1,7 +1,7 @@
 Überblick
 =========
 
-Das nachfolende Dokument soll die Funktionsweise, sowie den Quellcode der Felgenbohrmaschine
+Das nachfolgende Dokument soll die Funktionsweise, sowie den Quellcode der Felgenbohrmaschine
 dokumentieren. Die Bohrmaschine besteht im wesentlichen aus zwei Schrittmotoren. Einen
 zentralen Rotor, welcher für die Rotation und Positionierung der Felge zuständig ist und
 einer Lineareinheit, welche den Dremel positioniert und die Bohrbewegung ausführt.
@@ -66,8 +66,8 @@ Rotor
 * SW2: 1 (19200 BAUD)
 * SW4-No.1: OFF
 * SW4-No.2: ON
-* TERM-No.1: ON
-* TERM-No.2: OFF
+* TERM-No.1: OFF
+* TERM-No.2: ON
 
 Lineareinheit
 +++++++++++++
@@ -76,8 +76,8 @@ Lineareinheit
 * SW2: 1 (19200 BAUD)
 * SW4-No.1: OFF
 * SW4-No.2: ON
-* TERM-No.1: ON
-* TERM-No.2: ON
+* TERM-No.1: OFF
+* TERM-No.2: OFF
 
 Modbus/RS-485
 -------------

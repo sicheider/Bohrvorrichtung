@@ -25,6 +25,7 @@ class Bohrvorrichtung(object):
         self.isInterrupted = False
         self.mainLoopWaitTime = 0.1
         self.cr = communicationUtilities.CommandReceiver(self)
+        self.cr.start()
         self.sayHello()
 
     def loadProcessData(self):
@@ -53,17 +54,19 @@ class Bohrvorrichtung(object):
         """
         data = open("processData.json", "r")
         self.processData = json.loads(data.read())
-        self.holeNumer = self.processData["holeNumer"]
+        self.holeNumer = self.processData["holeNumber"]
         logging.info("Loaded process data:")
         logging.info(str(self.processData))
         data.close()
+        self.linearDriveToSpeed = 2000
 
     def writeProcessData(self):
         """Writes process data to stepper motor registers."""
         logging.debug("Writing process data to devices")
         self.rotor.writeOperationPosition(self.processData["rotorSteps"], 0)
         self.rotor.writeOperationSpeed(self.processData["rotorOperationSpeed"], 0)
-        self.rotor.writeOperationMode(self.processData["rotorOperationMode"], 0)
+        #better dont touch this value
+        #self.rotor.writeOperationMode(self.processData["rotorOperationMode"], 0)
         self.linear.writeOperationPosition(self.processData["x1"], 0)
         self.linear.writeOperationPosition(self.processData["x2"], 1)
         self.linear.writeOperationPosition(self.processData["x3"], 2)
@@ -85,6 +88,9 @@ class Bohrvorrichtung(object):
         self.loadProcessData()
         self.writeProcessData()
 
+    def finishCommand(self):
+        self.isInterrupted = False
+
     def sayHello(self):
         """Process initial movement."""
         logging.debug("Saying hello")
@@ -96,6 +102,7 @@ class Bohrvorrichtung(object):
     def startDrilling(self):
         """Perform drilling process."""
         logging.debug("Start drilling")
+        self.linear.goHome()
         self.rotor.goHome()
         self.linear.startOperation(0)
         for _ in range(0, self.holeNumer):
@@ -104,12 +111,23 @@ class Bohrvorrichtung(object):
             self.linear.startOperation(3)
             self.rotor.startOperation(0)
         self.linear.goHome()
+        self.finishCommand()
 
-    def driveLinearTo(self, position):
+    def fakeDrillingLinear(self):
         """Drives linear to given position."""
+        logging.debug("Driving linear!")
         self.linear.startOperation(4)
         for i in range(0, position):
             self.linear.startOperation(i)
+
+    def driveLinearTo(self, position):
+        """Drives linear to given position."""
+        logging.debug("Driving linear to: " + str(position))
+        self.linear.writeOperationSpeed(self.linearDriveToSpeed, position - 1)
+        self.linear.writeOperationMode(1, position - 1)
+        self.linear.startOperation(position - 1)
+        self.processDataToDevice()
+        self.finishCommand()
 
     def handleCommand(self, command):
         """Parses a incomming command and performs an action.
@@ -117,7 +135,7 @@ class Bohrvorrichtung(object):
         Returns:
             SUCCESS, FAIL or INVALID_REQUEST
         """
-        if command == commands.START_DRILLING:
+        if command == commands.REQUEST_STARTDRILLING:
             try:
                 self.startDrilling()
                 return commands.RESPONSE_SUCCESS
@@ -164,7 +182,6 @@ class Bohrvorrichtung(object):
         logging.debug("Device interrupted")
         self.rotor.stopMoving()
         self.linear.stopMoving()
-        self.isInterrupted = False
 
     def start(self):
         """Starts mainloop and listens to incoming commands.

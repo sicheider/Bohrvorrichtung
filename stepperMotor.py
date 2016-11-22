@@ -20,8 +20,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
         * waitForPingTime: Time between pings to the motor to check if its still moving
         * standardWaitTime: Time to wait after each modbus communication
         * maxFailCounter: If a communication failes maxFailCounter times a exception is raised
-        * master: An instance of the class which is controlling the motor. Must have an attribute named
-        "isInterrupted" and a method named "handleInterrupt"
+        * master: An instance of the class which is controlling the motor. Must have an attribute named "isInterrupted" and a method named "handleInterrupt"
         * registers: See oriental motor documentation
     """
     def __init__(self, name, adress, master,
@@ -224,9 +223,10 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             None
         """
-        self.printStatus("Going home")
-        self.writeToInputRegister(2**self.homeBitInput)
-        self.waitFor()
+        if not self.master.isInterrupted:
+            logging.debug(self.getStatus("Going home"))
+            self.writeToInputRegister(2**self.homeBitInput)
+            self.waitFor()
 
     def goForward(self):
         """Starts forward moving of the motor.
@@ -239,8 +239,9 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             None
         """
-        self.printStatus("Going forward")
-        self.writeRegisterSafe(self.inputRegister, 2**self.forwardBitInput)
+        if not self.mast.isInterrupted:
+            logging.debug(self.getStatus("Going Forward!"))
+            self.writeRegisterSafe(self.inputRegister, 2**self.forwardBitInput)
 
     def goReverse(self):
         """Starts reverse moving of the motor.
@@ -253,8 +254,9 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             None
         """
-        self.printStatus("Going reverse")
-        self.writeRegisterSafe(self.inputRegister, 2**self.reverseBitInput)
+        if not self.master.isInterrupted:
+            logging.debug(self.getStatus("Going reverse!"))
+            self.writeRegisterSafe(self.inputRegister, 2**self.reverseBitInput)
 
     def startOperation(self, operationNumber):
         """Starts a operation which is stored in the operation registers.
@@ -268,11 +270,12 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             ValueError if the operation number is invalid
         """
-        if operationNumber > self.operationCount or operationNumber < 0:
-            raise ValueError("Invalid value for operation number!")
-        self.printStatus("Starting operation " + str(operationNumber))
-        self.writeToInputRegister(2**self.startBitInput | operationNumber)
-        self.waitFor()
+        if not self.master.isInterrupted:
+            if operationNumber > self.operationCount or operationNumber < 0:
+                raise ValueError("Invalid value for operation number!")
+            logging.debug(self.getStatus("Starting operation " + str(operationNumber)))
+            self.writeToInputRegister(2**self.startBitInput | operationNumber)
+            self.waitFor()
 
     def stopMoving(self):
         """Stops the motor.
@@ -336,8 +339,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
         """Writes the operation mode for a operation number.
 
         Args:
-            * operationMode (0|1): The operation mode for the operation. 0 for incremental,
-            1 for absolute
+            * operationMode (0|1): The operation mode for the operation. 0 for incremental, 1 for absolute
             * operationNumber (int)
 
         Returns:

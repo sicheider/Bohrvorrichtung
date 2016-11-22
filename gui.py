@@ -97,7 +97,7 @@ class Gui(QtGui.QDialog):
         if response == commands.RESPONSE_FAIL:
             w = QtGui.QWidget()
             QtGui.QMessageBox.warning(w, "Warnung!", "Operation fehlgeschlagen!")
-        if response == commands.INVALID_REQUEST:
+        if response == commands.RESPONSE_INVALID_REQUEST:
             w = QtGui.QWidget()
             QtGui.QMessageBox.warning(w, "Warnung!", "Ungueltige Anforderung!")
         self.enableWidgets()
