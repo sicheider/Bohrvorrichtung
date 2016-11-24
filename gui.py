@@ -20,6 +20,10 @@ class Gui(QtGui.QDialog):
     """
     receivedResponse = pyqtSignal(str)
 
+    LINEAR_BALL_SCREW_LEAD = 6
+    ELECTRONIC_GEAR_A = 1
+    ELECTRONIC_GEAR_B = 1
+
     def __init__(self):
         QtGui.QDialog.__init__(self)
         self.ui = uic.loadUi("Interface.ui")
@@ -265,21 +269,21 @@ class Gui(QtGui.QDialog):
             ValueError
         """
         try:
-            maxLinearSpeed = 20000
-            maxLinearSteps = 20000
-            minLinearSpeed = 1
-            minLinearSteps = 0
-            maxRotorSteps = 40000
+            maxLinearSpeed = 2000
+            maxLinearPosition = 200
+            minLinearSpeed = 0.1
+            minLinearPosition = 0
+            maxRotorPosition = 40000
             maxRotorSpeed = 50000
-            minRotorSteps = 1
+            minRotorPosition = 1
             minRotorSpeed = 1
             name = str(self.ui.dataNameEdit.text())
             edit = str(self.ui.extraEdit.text())
             holeNumber = int(self.ui.holeCountEdit.text())
             rotorSteps = int(self.ui.rotorPositionEdit.text())
-            if rotorSteps > maxRotorSteps:
+            if rotorSteps > maxRotorPosition:
                 raise ValueError("Angabe fuer Rotorschritte zu gross!")
-            elif rotorSteps < minRotorSteps:
+            elif rotorSteps < minRotorPosition:
                 raise ValueError("Angabe fuer Rotorschritte zu klein!")
             rotorOperationSpeed = int(self.ui.rotorSpeedEdit.text())
             if rotorOperationSpeed > maxRotorSpeed:
@@ -287,43 +291,43 @@ class Gui(QtGui.QDialog):
             elif rotorOperationSpeed < minRotorSpeed:
                 raise ValueError("Angabe fuer Rotorgeschwindigkeit zu klein!")
             rotorOperationMode = 0
-            x1 = int(self.ui.x1Edit.text())
-            if x1 > maxLinearSteps:
+            x1 = float(self.ui.x1Edit.text())
+            if x1 > maxLinearPosition:
                 raise ValueError("Angabe fuer Position 1 zu gross!")
-            elif x1 < minLinearSteps:
+            elif x1 < minLinearPosition:
                 raise ValueError("Angabe fuer Position 1 zu klein!")
-            x2 = int(self.ui.x2Edit.text())
-            if x2 > maxLinearSteps:
+            x2 = float(self.ui.x2Edit.text())
+            if x2 > maxLinearPosition:
                 raise ValueError("Angabe fuer Position 2 zu gross!")
-            elif x2 < minLinearSteps:
+            elif x2 < minLinearPosition:
                 raise ValueError("Angabe fuer Position 2 zu klein!")
-            x3 = int(self.ui.x3Edit.text())
-            if x3 > maxLinearSteps:
+            x3 = float(self.ui.x3Edit.text())
+            if x3 > maxLinearPosition:
                 raise ValueError("Angabe fuer Position 3 zu gross!")
-            elif x3 < minLinearSteps:
+            elif x3 < minLinearPosition:
                 raise ValueError("Angabe fuer Position 3 zu klein!")
-            x4 = int(self.ui.x1Edit.text())
-            if x4 > maxLinearSteps:
+            x4 = float(self.ui.x1Edit.text())
+            if x4 > maxLinearPosition:
                 raise ValueError("Angabe fuer Position 4 zu gross!")
-            elif x4 < minLinearSteps:
+            elif x4 < minLinearPosition:
                 raise ValueError("Angabe fuer Position 4 zu klein!")
             x5 = 0
-            v1 = int(self.ui.v1Edit.text())
+            v1 = float(self.ui.v1Edit.text())
             if v1 > maxLinearSpeed:
                 raise ValueError("Angabe fuer Geschwindigkeit 1 zu gross!")
             elif v1 < minLinearSpeed:
                 raise ValueError("Angabe fuer Geschwindigkeit 1 zu klein!")
-            v2 = int(self.ui.v2Edit.text())
+            v2 = float(self.ui.v2Edit.text())
             if v2 > maxLinearSpeed:
                 raise ValueError("Angabe fuer Geschwindigkeit 2 zu gross!")
             elif v2 < minLinearSpeed:
                 raise ValueError("Angabe fuer Geschwindigkeit 2 zu klein!")
-            v3 = int(self.ui.v3Edit.text())
+            v3 = float(self.ui.v3Edit.text())
             if v3 > maxLinearSpeed:
                 raise ValueError("Angabe fuer Geschwindigkeit 3 zu gross!")
             elif v3 < minLinearSpeed:
                 raise ValueError("Angabe fuer Geschwindigkeit 3 zu klein!")
-            v4 = int(self.ui.v4Edit.text())
+            v4 = float(self.ui.v4Edit.text())
             if v4 > maxLinearSpeed:
                 raise ValueError("Angabe fuer Rueckfahrgeschwindigkeit zu gross!")
             elif v4 < minLinearSpeed:
@@ -340,16 +344,16 @@ class Gui(QtGui.QDialog):
                     "rotorSteps" : rotorSteps,
                     "rotorOperationSpeed" : rotorOperationSpeed,
                     "rotorOperationMode" : 0,
-                    "x1" : x1,
-                    "x2" : x2,
-                    "x3" : x3,
-                    "x4" : x4,
-                    "x5" : x5,
-                    "v1" : v1,
-                    "v2" : v2,
-                    "v3" : v3,
-                    "v4" : v4,
-                    "v5" : v5,
+                    "x1" : self.mmToSteps(x1),
+                    "x2" : self.mmToSteps(x2),
+                    "x3" : self.mmToSteps(x3),
+                    "x4" : self.mmToSteps(x4),
+                    "x5" : self.mmToSteps(x5),
+                    "v1" : self.mmPerSecondToHz(v1),
+                    "v2" : self.mmPerSecondToHz(v2),
+                    "v3" : self.mmPerSecondToHz(v3),
+                    "v4" : self.mmPerSecondToHz(v4),
+                    "v5" : self.mmPerSecondToHz(v5),
                     "mode1" : mode1,
                     "mode2" : mode2,
                     "mode3" : mode3,
@@ -375,13 +379,13 @@ class Gui(QtGui.QDialog):
         if processData != None:
             self.ui.dataNameEdit.setText(processData["name"])
             self.ui.extraEdit.setText(processData["edit"])
-            self.ui.x1Edit.setText(str(processData["x1"]))
-            self.ui.x2Edit.setText(str(processData["x2"]))
-            self.ui.x3Edit.setText(str(processData["x3"]))
-            self.ui.v1Edit.setText(str(processData["v1"]))
-            self.ui.v2Edit.setText(str(processData["v2"]))
-            self.ui.v3Edit.setText(str(processData["v3"]))
-            self.ui.v4Edit.setText(str(processData["v4"]))
+            self.ui.x1Edit.setText("%.2f" % str(self.stepsToMM(processData["x1"])))
+            self.ui.x2Edit.setText("%.2f" % str(self.stepsToMM(processData["x2"])))
+            self.ui.x3Edit.setText("%.2f" % str(self.stepsToMM(processData["x3"])))
+            self.ui.v1Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v1"])))
+            self.ui.v2Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v2"])))
+            self.ui.v3Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v3"])))
+            self.ui.v4Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v4"])))
             self.ui.rotorSpeedEdit.setText(str(processData["rotorOperationSpeed"]))
             self.ui.rotorPositionEdit.setText(str(processData["rotorSteps"]))
             self.ui.holeCountEdit.setText(str(processData["holeNumber"]))
@@ -403,6 +407,30 @@ class Gui(QtGui.QDialog):
         for processData in self.allProcessData:
             if processData["name"] == name:
                 return processData
+
+    def mmPerSecondToHz(self, speed):
+        resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        result = speed / minimumTravelAmount
+        return int(result)
+
+    def mmToSteps(self, position):
+        resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        result = position / minimumTravelAmount
+        return int(result)
+
+    def hzToMMPerSecond(self, speed):
+        resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        result = speed * minimumTravelAmount
+        return float(result)
+
+    def stepsToMM(self, position):
+        resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        result = position / minimumTravelAmount
+        return float(result)
 
     def closeEvent(self):
         os.kill(os.getpid(), 15)
