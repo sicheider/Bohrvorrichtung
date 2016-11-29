@@ -15,7 +15,7 @@ class TestCommandSender(object):
         while True:
             command = raw_input("Command: ")
             if self.allowedToSend or command == commands.INTERRUPT :
-                self.cs.sendRequest(command)
+                self.cs.commandRequestToSend = command
             else:
                 logging.info("Not allowed to send data!")
 
