@@ -5,6 +5,7 @@ import logging
 class TestCommandSender(object):
     def __init__(self):
         self.cs = communicationUtilities.CommandSender(self)
+        self.cs.start()
         logging.basicConfig(level = logging.DEBUG)
         self.allowedToSend = True
 

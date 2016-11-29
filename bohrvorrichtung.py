@@ -18,9 +18,13 @@ class Bohrvorrichtung(object):
     """
     def __init__(self):
         """Constructor. Initializes everythin."""
-        logging.basicConfig(level = logging.DEBUG)
-        self.rotor = stepperMotor.StepperMotor("rotor", 5, self)
-        self.linear = stepperMotor.StepperMotor("linear", 6, self)
+        logging.basicConfig(level = logging.DEBUG, filename = "bohrvorrichtungLog.log", format = "%(asctime)s %(message)s")
+        logging.info("hi")
+        try:
+			self.rotor = stepperMotor.StepperMotor("rotor", 5, self)
+			self.linear = stepperMotor.StepperMotor("linear", 6, self)
+	except:
+			logging.exception("Error while setting up devices")
         self.processDataToDevice()
         self.isInterrupted = False
         self.mainLoopWaitTime = 0.1

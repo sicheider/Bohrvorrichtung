@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 import sys
 import commands
@@ -13,7 +13,7 @@ class Button(object):
         * allowedToSend: indicates if button is allowed to send a command or not; Button is not allowed to change this value by itself
         * cs: An instance of CommandSender, which sends starting commands to the driller
     """
-    def __init__(self, buttonPin = 18):
+    def __init__(self, buttonPin = 3):
         """Constructor; sets attributes.
 
         Args:
@@ -29,6 +29,7 @@ class Button(object):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.buttonPin, GPIO.IN, pull_up_down = GPIO.PUD_UP)
         self.cs = communicationUtilities.CommandSender(self)
+        self.cs.start()
         self.allowedToSend = True
         logging.basicConfig(level = logging.DEBUG)
 

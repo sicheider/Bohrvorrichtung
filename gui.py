@@ -410,25 +410,25 @@ class Gui(QtGui.QDialog):
 
     def mmPerSecondToHz(self, speed):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
         result = speed / minimumTravelAmount
         return int(result)
 
     def mmToSteps(self, position):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
         result = position / minimumTravelAmount
         return int(result)
 
     def hzToMMPerSecond(self, speed):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
         result = speed * minimumTravelAmount
         return float(result)
 
     def stepsToMM(self, position):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
+        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
         result = position / minimumTravelAmount
         return float(result)
 
