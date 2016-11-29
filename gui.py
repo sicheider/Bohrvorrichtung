@@ -20,9 +20,9 @@ class Gui(QtGui.QDialog):
     """
     receivedResponse = pyqtSignal(str)
 
-    LINEAR_BALL_SCREW_LEAD = 6
-    ELECTRONIC_GEAR_A = 1
-    ELECTRONIC_GEAR_B = 1
+    LINEAR_BALL_SCREW_LEAD = float(6)
+    ELECTRONIC_GEAR_A = float(1)
+    ELECTRONIC_GEAR_B = float(1)
 
     def __init__(self):
         QtGui.QDialog.__init__(self)
@@ -379,13 +379,13 @@ class Gui(QtGui.QDialog):
         if processData != None:
             self.ui.dataNameEdit.setText(processData["name"])
             self.ui.extraEdit.setText(processData["edit"])
-            self.ui.x1Edit.setText("%.2f" % str(self.stepsToMM(processData["x1"])))
-            self.ui.x2Edit.setText("%.2f" % str(self.stepsToMM(processData["x2"])))
-            self.ui.x3Edit.setText("%.2f" % str(self.stepsToMM(processData["x3"])))
-            self.ui.v1Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v1"])))
-            self.ui.v2Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v2"])))
-            self.ui.v3Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v3"])))
-            self.ui.v4Edit.setText("%.2f" % str(self.hzToMMPerSecond(processData["v4"])))
+            self.ui.x1Edit.setText("%.2f" % (self.stepsToMM(processData["x1"])))
+            self.ui.x2Edit.setText("%.2f" % (self.stepsToMM(processData["x2"])))
+            self.ui.x3Edit.setText("%.2f" % (self.stepsToMM(processData["x3"])))
+            self.ui.v1Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v1"])))
+            self.ui.v2Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v2"])))
+            self.ui.v3Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v3"])))
+            self.ui.v4Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v4"])))
             self.ui.rotorSpeedEdit.setText(str(processData["rotorOperationSpeed"]))
             self.ui.rotorPositionEdit.setText(str(processData["rotorSteps"]))
             self.ui.holeCountEdit.setText(str(processData["holeNumber"]))
@@ -410,25 +410,25 @@ class Gui(QtGui.QDialog):
 
     def mmPerSecondToHz(self, speed):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = speed / minimumTravelAmount
         return int(result)
 
     def mmToSteps(self, position):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = position / minimumTravelAmount
         return int(result)
 
     def hzToMMPerSecond(self, speed):
-        resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
+        resolution = 1000 * self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = speed * minimumTravelAmount
         return float(result)
 
     def stepsToMM(self, position):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
-        minimumTravelAmount = float(self.LINEAR_BALL_SCREW_LEAD / resolution)
+        minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = position / minimumTravelAmount
         return float(result)
 
