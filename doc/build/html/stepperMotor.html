@@ -68,7 +68,7 @@ upper registers too.</p>
 </div>
 <dl class="docutils">
 <dt>Attributes:</dt>
-<dd><ul class="first simple">
+<dd><ul class="first last simple">
 <li>baudrate: The baudrate of the serial communication</li>
 <li>stopbits: Stopbit configuration of the serial communication</li>
 <li>parity: Parity configuration of the serial communication</li>
@@ -76,10 +76,9 @@ upper registers too.</p>
 <li>waitForPingTime: Time between pings to the motor to check if its still moving</li>
 <li>standardWaitTime: Time to wait after each modbus communication</li>
 <li>maxFailCounter: If a communication failes maxFailCounter times a exception is raised</li>
-<li>master: An instance of the class which is controlling the motor. Must have an attribute named</li>
+<li>master: An instance of the class which is controlling the motor. Must have an attribute named &#8220;isInterrupted&#8221; and a method named &#8220;handleInterrupt&#8221;</li>
+<li>registers: See oriental motor documentation</li>
 </ul>
-<p class="last">&#8220;isInterrupted&#8221; and a method named &#8220;handleInterrupt&#8221;
-* registers: See oriental motor documentation</p>
 </dd>
 </dl>
 <dl class="method">
@@ -139,11 +138,10 @@ upper registers too.</p>
 <dl class="method">
 <dt id="stepperMotor.StepperMotor.goForward">
 <code class="descname">goForward</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.goForward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts forward moving of the motor.
-Args:</p>
-<blockquote>
-<div>None</div></blockquote>
+<dd><p>Starts forward moving of the motor.</p>
 <dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
 <dt>Returns:</dt>
 <dd>None</dd>
 <dt>Raises:</dt>
@@ -154,11 +152,10 @@ Args:</p>
 <dl class="method">
 <dt id="stepperMotor.StepperMotor.goHome">
 <code class="descname">goHome</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.goHome" title="Permalink to this definition">¶</a></dt>
-<dd><p>Drives the motor to home position.
-Args:</p>
-<blockquote>
-<div>None</div></blockquote>
+<dd><p>Drives the motor to home position.</p>
 <dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
 <dt>Returns:</dt>
 <dd>None</dd>
 <dt>Raises:</dt>
@@ -169,11 +166,10 @@ Args:</p>
 <dl class="method">
 <dt id="stepperMotor.StepperMotor.goReverse">
 <code class="descname">goReverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#stepperMotor.StepperMotor.goReverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts reverse moving of the motor.
-Args:</p>
-<blockquote>
-<div>None</div></blockquote>
+<dd><p>Starts reverse moving of the motor.</p>
 <dl class="docutils">
+<dt>Args:</dt>
+<dd>None</dd>
 <dt>Returns:</dt>
 <dd>None</dd>
 <dt>Raises:</dt>
@@ -250,11 +246,10 @@ Raises an exception if the communication failes maxFailCounter times.</p>
 <dd><p>Writes the operation mode for a operation number.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd><ul class="first simple">
-<li>operationMode (0|1): The operation mode for the operation. 0 for incremental,</li>
+<dd><ul class="first last simple">
+<li>operationMode (0|1): The operation mode for the operation. 0 for incremental, 1 for absolute</li>
+<li>operationNumber (int)</li>
 </ul>
-<p class="last">1 for absolute
-* operationNumber (int)</p>
 </dd>
 <dt>Returns:</dt>
 <dd>None</dd>

@@ -56,7 +56,7 @@
             
   <div class="section" id="uberblick">
 <h1>Überblick<a class="headerlink" href="#uberblick" title="Permalink to this headline">¶</a></h1>
-<p>Das nachfolende Dokument soll die Funktionsweise, sowie den Quellcode der Felgenbohrmaschine
+<p>Das nachfolgende Dokument soll die Funktionsweise, sowie den Quellcode der Felgenbohrmaschine
 dokumentieren. Die Bohrmaschine besteht im wesentlichen aus zwei Schrittmotoren. Einen
 zentralen Rotor, welcher für die Rotation und Positionierung der Felge zuständig ist und
 einer Lineareinheit, welche den Dremel positioniert und die Bohrbewegung ausführt.</p>
@@ -67,8 +67,9 @@ Parameter eines Datensatzes sind:</p>
 <ul class="simple">
 <li>Schrittversatz: Die Positionsveränderung in Schritten</li>
 <li>Geschwindigkeit: Die Geschwindigkeit der Positionsveränderung in Hz (Schritte pro Sekunde)</li>
-<li>Bewegungsmodus: Inkremental (0) oder Absolut (1). Bei einer inkrementalen Bewegung werden die Schritte im Schrittversatz zur aktuellen Position hinzuaddiert. Bei einer absoluten Bewegung positioniert sich der Motor gemessen am Ausgangspunkt.</li>
+<li>Bewegungsmodus: Inkremental (0) oder Absolut (1). Bei einer inkrementalen Bewegung werden die Schritte im Schrittversatz</li>
 </ul>
+<p>zur aktuellen Position hinzuaddiert. Bei einer absoluten Bewegung positioniert sich der Motor gemessen am Ausgangspunkt.</p>
 <p>Soll nun eine bestimmte Operation ausgeführt werden, so muss am Inputregister die entsprechende
 Operation ausgewählt werden und das Startflag gesetzt werden.</p>
 <p>Zusätzlich zu den gespeicherten Operationen kann eine ReturnToHome Operation durchgeführt werden.
@@ -114,8 +115,8 @@ müssen die Treiber richtig konfiguriert sein. Folgende Einstellungen müssen ü
 <li>SW2: 1 (19200 BAUD)</li>
 <li>SW4-No.1: OFF</li>
 <li>SW4-No.2: ON</li>
-<li>TERM-No.1: ON</li>
-<li>TERM-No.2: OFF</li>
+<li>TERM-No.1: OFF</li>
+<li>TERM-No.2: ON</li>
 </ul>
 </div>
 <div class="section" id="id2">
@@ -125,8 +126,8 @@ müssen die Treiber richtig konfiguriert sein. Folgende Einstellungen müssen ü
 <li>SW2: 1 (19200 BAUD)</li>
 <li>SW4-No.1: OFF</li>
 <li>SW4-No.2: ON</li>
-<li>TERM-No.1: ON</li>
-<li>TERM-No.2: ON</li>
+<li>TERM-No.1: OFF</li>
+<li>TERM-No.2: OFF</li>
 </ul>
 </div>
 </div>
@@ -162,9 +163,30 @@ Konverter muss wie folgt konfiguriert sein:</p>
 Kommandos höhrt. Sobald ein Kommando empfangen wurde, wird dieses ausgeführt.</p>
 <p>Des Weiteren läuft ein Listenerprogramm, welches darauf wartet, dass der Druckknopf zum Starten gedrückt
 wird (<code class="xref py py-mod docutils literal"><span class="pre">button</span></code>). Wird der Knopf gedrückt, so sendet das Programm ein Startsignal an das Hauptprogramm.</p>
-<p>Außerdem kann manuell die grafische Operfläche gestartet werden (<code class="xref py py-mod docutils literal"><span class="pre">gui</span></code>). Die grafische Oberfläche
+<p>Außerdem kann manuell die grafische Oberfläche -über die Desktopverknüpfung- gestartet werden (<a class="reference internal" href="gui.html#module-gui" title="gui"><code class="xref py py-mod docutils literal"><span class="pre">gui</span></code></a>).
+Die grafische Oberfläche
 stellt ebenfalls eine Verbindung zum Hauptprogramm her und sendet je nach Benutzereingabe verschiedene
 Signale an das Hauptprogramm.</p>
+<div class="section" id="konfiguration-des-raspberry-pies">
+<h3>Konfiguration des Raspberry Pies<a class="headerlink" href="#konfiguration-des-raspberry-pies" title="Permalink to this headline">¶</a></h3>
+<p>Das Steuerungsprogramm benötigt einige Abhängigkeiten. Diese können mit</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-qt4</span> <span class="pre">python-dev</span> <span class="pre">python-rpi.gpio</span></code></div>
+</div>
+<p>installiert werden. Um den Programmcode herunterzuladen muss im Homeverzeichnis</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/sicheider/Bohrvorrichtung.git</span></code></div>
+</div>
+<p>ausgeführt werden. Damit das Programm beim Start des RP ausgeführt wird, muss in <code class="docutils literal"><span class="pre">/etc/rc.local</span></code> folgende
+Zeilen -vor <code class="docutils literal"><span class="pre">exit</span> <span class="pre">0</span></code>- eingefügt werden:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">python</span> <span class="pre">/home/pi/Bohrvorrichtung/bohrvorrichtung.py</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">sleep</span> <span class="pre">3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">python</span> <span class="pre">/home/pi/Bohrvorrichtung/button.py</span></code></div>
+</div>
+<p>Außerdem muss darauf geachtet werden, dass der USB-RS485-Konverter am richtigen Serialport angeschlossen ist.
+Standardmäßig ist dieser <code class="docutils literal"><span class="pre">/dev/ttyUSB0</span></code></p>
+</div>
 <div class="section" id="aufbau-des-hauptprogramms">
 <h3>Aufbau des Hauptprogramms<a class="headerlink" href="#aufbau-des-hauptprogramms" title="Permalink to this headline">¶</a></h3>
 <p>Wie bereits in <a class="reference internal" href="#modbus-rs-485">Modbus/RS-485</a> erwähnt, werden die Schrittmotoren über das Modbusprotokoll angesteuert.
@@ -184,13 +206,13 @@ Hauptschleife gestartet, welche auf einkommende Kommandos höhrt (definiert in <
 </div>
 <div class="section" id="aufbau-der-interprozesskommunikation">
 <h3>Aufbau der Interprozesskommunikation<a class="headerlink" href="#aufbau-der-interprozesskommunikation" title="Permalink to this headline">¶</a></h3>
-<p>Die Kommunikation zwischen <code class="xref py py-mod docutils literal"><span class="pre">gui</span></code>, <code class="xref py py-mod docutils literal"><span class="pre">button</span></code> und <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a> wird von
+<p>Die Kommunikation zwischen <a class="reference internal" href="gui.html#module-gui" title="gui"><code class="xref py py-mod docutils literal"><span class="pre">gui</span></code></a>, <code class="xref py py-mod docutils literal"><span class="pre">button</span></code> und <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a> wird von
 <a class="reference internal" href="communicationUtilities.html#module-communicationUtilities" title="communicationUtilities"><code class="xref py py-mod docutils literal"><span class="pre">communicationUtilities</span></code></a> gesteuert. <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a> besitzt eine Instanz der Klasse
 <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a> welche auf neue Verbindungen höhrt und Kommandos
 empfängt. Das Hauptprogramm kann dann empfangene Befehle aus der Warteschlange von
 <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a> nehmen und nach deren Ausführung die entsprechende
 Antwort in die Ausgangswarteschlange von <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a> schreiben.</p>
-<p><code class="xref py py-mod docutils literal"><span class="pre">gui</span></code> und <code class="xref py py-mod docutils literal"><span class="pre">button</span></code> besitzen jeweils eine Instanz der Klasse
+<p><a class="reference internal" href="gui.html#module-gui" title="gui"><code class="xref py py-mod docutils literal"><span class="pre">gui</span></code></a> und <code class="xref py py-mod docutils literal"><span class="pre">button</span></code> besitzen jeweils eine Instanz der Klasse
 <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandSender" title="communicationUtilities.CommandSender"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandSender</span></code></a>,
 welche zuerst eine Verbindung zu <a class="reference internal" href="communicationUtilities.html#communicationUtilities.CommandReceiver" title="communicationUtilities.CommandReceiver"><code class="xref py py-class docutils literal"><span class="pre">communicationUtilities.CommandReceiver</span></code></a>
 aufbaut und danach Befehle an die Gegenseite verschicken kann. Eine Sender darf erst ein neues
@@ -221,6 +243,7 @@ Stop der Maschine darf jedoch jederzeit gesendet werden.</p>
 </li>
 <li><a class="reference internal" href="#modbus-rs-485">Modbus/RS-485</a></li>
 <li><a class="reference internal" href="#aufbau-der-mastersteuerung-software">Aufbau der Mastersteuerung/Software</a><ul>
+<li><a class="reference internal" href="#konfiguration-des-raspberry-pies">Konfiguration des Raspberry Pies</a></li>
 <li><a class="reference internal" href="#aufbau-des-hauptprogramms">Aufbau des Hauptprogramms</a></li>
 <li><a class="reference internal" href="#aufbau-der-interprozesskommunikation">Aufbau der Interprozesskommunikation</a></li>
 </ul>

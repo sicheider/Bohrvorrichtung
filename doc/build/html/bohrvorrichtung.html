@@ -87,6 +87,17 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.fakeDrillingLinear">
+<code class="descname">fakeDrillingLinear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.fakeDrillingLinear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drives linear to given position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bohrvorrichtung.Bohrvorrichtung.finishCommand">
+<code class="descname">finishCommand</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.finishCommand" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="bohrvorrichtung.Bohrvorrichtung.handleCommand">
 <code class="descname">handleCommand</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="headerlink" href="#bohrvorrichtung.Bohrvorrichtung.handleCommand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses a incomming command and performs an action.</p>
@@ -111,6 +122,8 @@
 <dd><ul class="first last simple">
 <li>holeNumber: The ammount of holes</li>
 <li>rotorSteps: The steps for each rotor move</li>
+<li>rotorOffset: Kalibration offset</li>
+<li>rotorOffsetSpeed</li>
 <li>rotorOperationSpeed</li>
 <li>rotorOperationMode</li>
 <li>x1: The position where drilling starts</li>

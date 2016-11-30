@@ -14,7 +14,8 @@ Parameter eines Datensatzes sind:
 
 * Schrittversatz: Die Positionsveränderung in Schritten
 * Geschwindigkeit: Die Geschwindigkeit der Positionsveränderung in Hz (Schritte pro Sekunde)
-* Bewegungsmodus: Inkremental (0) oder Absolut (1). Bei einer inkrementalen Bewegung werden die Schritte im Schrittversatz zur aktuellen Position hinzuaddiert. Bei einer absoluten Bewegung positioniert sich der Motor gemessen am Ausgangspunkt.
+* Bewegungsmodus: Inkremental (0) oder Absolut (1). Bei einer inkrementalen Bewegung werden die Schritte im Schrittversatz 
+zur aktuellen Position hinzuaddiert. Bei einer absoluten Bewegung positioniert sich der Motor gemessen am Ausgangspunkt.
  
 Soll nun eine bestimmte Operation ausgeführt werden, so muss am Inputregister die entsprechende
 Operation ausgewählt werden und das Startflag gesetzt werden. 
@@ -115,9 +116,31 @@ Kommandos höhrt. Sobald ein Kommando empfangen wurde, wird dieses ausgeführt.
 Des Weiteren läuft ein Listenerprogramm, welches darauf wartet, dass der Druckknopf zum Starten gedrückt
 wird (:mod:`button`). Wird der Knopf gedrückt, so sendet das Programm ein Startsignal an das Hauptprogramm.
 
-Außerdem kann manuell die grafische Operfläche gestartet werden (:mod:`gui`). Die grafische Oberfläche
+Außerdem kann manuell die grafische Oberfläche -über die Desktopverknüpfung- gestartet werden (:mod:`gui`).
+Die grafische Oberfläche
 stellt ebenfalls eine Verbindung zum Hauptprogramm her und sendet je nach Benutzereingabe verschiedene
 Signale an das Hauptprogramm.
+
+Konfiguration des Raspberry Pies
+++++++++++++++++++++++++++++++++
+
+Das Steuerungsprogramm benötigt einige Abhängigkeiten. Diese können mit
+
+| ``sudo apt-get install python-qt4 python-dev python-rpi.gpio``
+
+installiert werden. Um den Programmcode herunterzuladen muss im Homeverzeichnis
+
+| ``git clone https://github.com/sicheider/Bohrvorrichtung.git``
+
+ausgeführt werden. Damit das Programm beim Start des RP ausgeführt wird, muss in ``/etc/rc.local`` folgende
+Zeilen -vor ``exit 0``- eingefügt werden:
+
+| ``python /home/pi/Bohrvorrichtung/bohrvorrichtung.py``
+| ``sleep 3``
+| ``python /home/pi/Bohrvorrichtung/button.py``
+
+Außerdem muss darauf geachtet werden, dass der USB-RS485-Konverter am richtigen Serialport angeschlossen ist.
+Standardmäßig ist dieser ``/dev/ttyUSB0``
 
 Aufbau des Hauptprogramms
 +++++++++++++++++++++++++

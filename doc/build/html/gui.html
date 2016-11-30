@@ -75,6 +75,21 @@
 </ul>
 </dd>
 </dl>
+<dl class="attribute">
+<dt id="gui.Gui.ELECTRONIC_GEAR_A">
+<code class="descname">ELECTRONIC_GEAR_A</code><em class="property"> = 1.0</em><a class="headerlink" href="#gui.Gui.ELECTRONIC_GEAR_A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gui.Gui.ELECTRONIC_GEAR_B">
+<code class="descname">ELECTRONIC_GEAR_B</code><em class="property"> = 1.0</em><a class="headerlink" href="#gui.Gui.ELECTRONIC_GEAR_B" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gui.Gui.LINEAR_BALL_SCREW_LEAD">
+<code class="descname">LINEAR_BALL_SCREW_LEAD</code><em class="property"> = 6.0</em><a class="headerlink" href="#gui.Gui.LINEAR_BALL_SCREW_LEAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="gui.Gui.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.__init__" title="Permalink to this definition">¶</a></dt>
@@ -98,6 +113,11 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="gui.Gui.getDataFromDataName">
+<code class="descname">getDataFromDataName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.getDataFromDataName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="gui.Gui.getDataFromEdits">
 <code class="descname">getDataFromEdits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.getDataFromEdits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads from input edits.</p>
@@ -117,35 +137,28 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="gui.Gui.hzToMMPerSecond">
+<code class="descname">hzToMMPerSecond</code><span class="sig-paren">(</span><em>speed</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.hzToMMPerSecond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms speed from hz to mm/s.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="gui.Gui.loadAllProcessData">
 <code class="descname">loadAllProcessData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.loadAllProcessData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads all process data from the json file and stores them into allProcessData.
-One process data must define the following:</p>
-<dl class="docutils">
-<dt>Attributes:</dt>
-<dd><ul class="first last simple">
-<li>holeNumber: The ammount of holes</li>
-<li>rotorSteps: The steps for each rotor move</li>
-<li>rotorOperationSpeed</li>
-<li>rotorOperationMode</li>
-<li>x1: The position where drilling starts</li>
-<li>x2: The middleposition of drilling</li>
-<li>x3: The position where drilling ends</li>
-<li>x4: The position where drilling starts</li>
-<li>x5: Nullposition</li>
-<li>v1: Speed to x1</li>
-<li>v2: Speed to x2</li>
-<li>v3: Speed to x3</li>
-<li>v4: Speed to x4</li>
-<li>v5: Speed to x5</li>
-<li>mode1</li>
-<li>mode2</li>
-<li>mode3</li>
-<li>mode4</li>
-<li>mode5</li>
-</ul>
-</dd>
-</dl>
+<dd><p>Loads all process data from the json file and stores them into allProcessData.</p>
+<p>A valid json file is descriped in <a class="reference internal" href="bohrvorrichtung.html#module-bohrvorrichtung" title="bohrvorrichtung"><code class="xref py py-mod docutils literal"><span class="pre">bohrvorrichtung</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.mmPerSecondToHz">
+<code class="descname">mmPerSecondToHz</code><span class="sig-paren">(</span><em>speed</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.mmPerSecondToHz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms speed from mm/s to Hz.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.mmToSteps">
+<code class="descname">mmToSteps</code><span class="sig-paren">(</span><em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.mmToSteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms position from mm to steps.</p>
 </dd></dl>
 
 <dl class="method">
@@ -221,7 +234,7 @@ and enables widges.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><ul class="first last simple">
-<li>processData: A dict with process data. See <a class="reference internal" href="#gui.Gui.loadAllProcessData" title="gui.Gui.loadAllProcessData"><code class="xref py py-meth docutils literal"><span class="pre">loadAllProcessData()</span></code></a></li>
+<li>processData</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -229,6 +242,12 @@ and enables widges.</p>
 <dt>Raises:</dt>
 <dd>None</dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.stepsToMM">
+<code class="descname">stepsToMM</code><span class="sig-paren">(</span><em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.stepsToMM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms position from steps to mm.</p>
 </dd></dl>
 
 </dd></dl>

@@ -214,6 +214,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
 
     def goHome(self):
         """Drives the motor to home position.
+
         Args:
             None
 
@@ -230,6 +231,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
 
     def goForward(self):
         """Starts forward moving of the motor.
+
         Args:
             None
 
@@ -245,6 +247,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
 
     def goReverse(self):
         """Starts reverse moving of the motor.
+
         Args:
             None
 
