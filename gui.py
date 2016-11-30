@@ -150,7 +150,7 @@ class Gui(QtGui.QDialog):
         """Deletes current process data and updates allProcess data file."""
         data = self.getDataFromEdits()
         #update allProcessData
-        self.allProcessData.remove(data)
+        self.allProcessData.remove(self.getDataFromDataName(data["name"]))
         #update combobox and jump to first item
         index = self.ui.comboBox.findText(data["name"])
         self.ui.comboBox.removeItem(index)
@@ -198,7 +198,7 @@ class Gui(QtGui.QDialog):
         self.ui.label_14.setEnabled(False)
 
         self.ui.dataNameEdit.setEnabled(False)
-        self.ui.extraEdit.setEnabled(False)
+        self.ui.rotorOffsetEdit.setEnabled(False)
         self.ui.holeCountEdit.setEnabled(False)
         self.ui.rotorPositionEdit.setEnabled(False)
         self.ui.rotorSpeedEdit.setEnabled(False)
@@ -236,7 +236,7 @@ class Gui(QtGui.QDialog):
         self.ui.label_14.setEnabled(True)
 
         self.ui.dataNameEdit.setEnabled(True)
-        self.ui.extraEdit.setEnabled(True)
+        self.ui.rotorOffsetEdit.setEnabled(True)
         self.ui.holeCountEdit.setEnabled(True)
         self.ui.rotorPositionEdit.setEnabled(True)
         self.ui.rotorSpeedEdit.setEnabled(True)
@@ -256,6 +256,12 @@ class Gui(QtGui.QDialog):
         self.ui.driveX3Button.setEnabled(True)
         self.ui.startButton.setEnabled(True)
 
+    def getDataFromDataName(self, name):
+        for processData in self.allProcessData:
+            if processData["name"] == name:
+                return processData
+        return None
+
     def getDataFromEdits(self):
         """Reads from input edits.
 
@@ -269,16 +275,23 @@ class Gui(QtGui.QDialog):
             ValueError
         """
         try:
-            maxLinearSpeed = 2000
-            maxLinearPosition = 200
+            maxLinearSpeed = 100
+            maxLinearPosition = 120
             minLinearSpeed = 0.1
             minLinearPosition = 0
             maxRotorPosition = 40000
             maxRotorSpeed = 50000
+            maxRotorOffset = 40000
+            minRotorOffset = -40000
             minRotorPosition = 1
             minRotorSpeed = 1
             name = str(self.ui.dataNameEdit.text())
-            edit = str(self.ui.extraEdit.text())
+            rotorOffset = int(self.ui.rotorOffsetEdit.text())
+            if rotorOffset > maxRotorOffset:
+                raise ValueError("Angabe fuer Rotoroffset zu gross!")
+            elif rotorOffset < minRotorOffset:
+                raise ValueError("Angabe fuer Rotoroffset zu klein!")
+            rotorOffsetSpeed = 500
             holeNumber = int(self.ui.holeCountEdit.text())
             rotorSteps = int(self.ui.rotorPositionEdit.text())
             if rotorSteps > maxRotorPosition:
@@ -339,7 +352,8 @@ class Gui(QtGui.QDialog):
             mode4 = 1
             mode5 = 1
             return {"name" : name,
-                    "edit" : edit,
+                    "rotorOffset" : rotorOffset,
+                    "rotorOffsetSpeed" : rotorOffsetSpeed,
                     "holeNumber" : holeNumber,
                     "rotorSteps" : rotorSteps,
                     "rotorOperationSpeed" : rotorOperationSpeed,
@@ -353,7 +367,7 @@ class Gui(QtGui.QDialog):
                     "v2" : self.mmPerSecondToHz(v2),
                     "v3" : self.mmPerSecondToHz(v3),
                     "v4" : self.mmPerSecondToHz(v4),
-                    "v5" : self.mmPerSecondToHz(v5),
+                    "v5" : v5,
                     "mode1" : mode1,
                     "mode2" : mode2,
                     "mode3" : mode3,
@@ -378,7 +392,6 @@ class Gui(QtGui.QDialog):
         """
         if processData != None:
             self.ui.dataNameEdit.setText(processData["name"])
-            self.ui.extraEdit.setText(processData["edit"])
             self.ui.x1Edit.setText("%.2f" % (self.stepsToMM(processData["x1"])))
             self.ui.x2Edit.setText("%.2f" % (self.stepsToMM(processData["x2"])))
             self.ui.x3Edit.setText("%.2f" % (self.stepsToMM(processData["x3"])))
@@ -389,9 +402,10 @@ class Gui(QtGui.QDialog):
             self.ui.rotorSpeedEdit.setText(str(processData["rotorOperationSpeed"]))
             self.ui.rotorPositionEdit.setText(str(processData["rotorSteps"]))
             self.ui.holeCountEdit.setText(str(processData["holeNumber"]))
+            self.ui.rotorOffsetEdit.setText(str(processData["rotorOffset"]))
         else:
             self.ui.dataNameEdit.setText("")
-            self.ui.extraEdit.setText("")
+            self.ui.rotorOffsetEdit.setText("")
             self.ui.x1Edit.setText("")
             self.ui.x2Edit.setText("")
             self.ui.x3Edit.setText("")
@@ -429,7 +443,7 @@ class Gui(QtGui.QDialog):
     def stepsToMM(self, position):
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
         minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
-        result = position / minimumTravelAmount
+        result = position * minimumTravelAmount
         return float(result)
 
     def closeEvent(self):
