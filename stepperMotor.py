@@ -306,7 +306,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             ValueError
         """
-        if operationPosition > 2**16 or operationPosition < 0:
+        if operationPosition > 2**15 or operationPosition < 0:
             raise ValueError("Invalid value for operation position!")
         if operationNumber > self.operationCount or operationNumber < 0:
             raise ValueError("Invalid value for operation number!")
@@ -327,7 +327,7 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             ValueError
         """
-        if operationSpeed > 2**16 or operationSpeed < 0:
+        if operationSpeed > 2**15 or operationSpeed < 0:
             raise ValueError("Invalid value for operation speed!")
         if operationNumber > self.operationCount or operationNumber < 0:
             raise ValueError("Invalid value for operation number!")

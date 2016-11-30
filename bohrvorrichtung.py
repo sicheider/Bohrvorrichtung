@@ -18,19 +18,18 @@ class Bohrvorrichtung(object):
     """
     def __init__(self):
         """Constructor. Initializes everythin."""
-        logging.basicConfig(level = logging.DEBUG, filename = "bohrvorrichtungLog.log", format = "%(asctime)s %(message)s")
-        logging.info("hi")
+        logging.basicConfig(level = logging.DEBUG, filename = "bohrvorrichtung.log", format = "%(asctime)s %(message)s")
         try:
-			self.rotor = stepperMotor.StepperMotor("rotor", 5, self)
-			self.linear = stepperMotor.StepperMotor("linear", 6, self)
-	except:
-			logging.exception("Error while setting up devices")
-        self.processDataToDevice()
-        self.isInterrupted = False
-        self.mainLoopWaitTime = 0.1
-        self.cr = communicationUtilities.CommandReceiver(self)
-        self.cr.start()
-        self.sayHello()
+            self.rotor = stepperMotor.StepperMotor("rotor", 5, self)
+            self.linear = stepperMotor.StepperMotor("linear", 6, self)
+            self.processDataToDevice()
+            self.isInterrupted = False
+            self.mainLoopWaitTime = 0.1
+            self.cr = communicationUtilities.CommandReceiver(self)
+            self.cr.start()
+            self.sayHello()
+        except:
+            logging.exception("Error while initializing!")
 
     def loadProcessData(self):
         """Loads process data from json file. The json file must define:
@@ -38,6 +37,8 @@ class Bohrvorrichtung(object):
         Attributes:
             * holeNumber: The ammount of holes
             * rotorSteps: The steps for each rotor move
+            * rotorOffset: Kalibration offset
+            * rotorOffsetSpeed
             * rotorOperationSpeed
             * rotorOperationMode
             * x1: The position where drilling starts
@@ -66,6 +67,7 @@ class Bohrvorrichtung(object):
 
     def writeProcessData(self):
         """Writes process data to stepper motor registers."""
+        #TODO: write offset data
         logging.debug("Writing process data to devices")
         self.rotor.writeOperationPosition(self.processData["rotorSteps"], 0)
         self.rotor.writeOperationSpeed(self.processData["rotorOperationSpeed"], 0)
@@ -105,6 +107,7 @@ class Bohrvorrichtung(object):
 
     def startDrilling(self):
         """Perform drilling process."""
+        #TODO: drive offset
         logging.debug("Start drilling")
         self.linear.goHome()
         self.rotor.goHome()
@@ -143,8 +146,6 @@ class Bohrvorrichtung(object):
             try:
                 self.startDrilling()
                 return commands.RESPONSE_SUCCESS
-            except KeyboardInterrupt:
-                os.kill(os.getpid(), 9)
             except:
                 logging.exception("Error while drilling!")
                 return commands.RESPONSE_FAIL

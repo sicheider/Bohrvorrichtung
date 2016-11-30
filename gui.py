@@ -60,28 +60,9 @@ class Gui(QtGui.QDialog):
 
     def loadAllProcessData(self):
         """Loads all process data from the json file and stores them into allProcessData.
-        One process data must define the following:
 
-        Attributes:
-            * holeNumber: The ammount of holes
-            * rotorSteps: The steps for each rotor move
-            * rotorOperationSpeed
-            * rotorOperationMode
-            * x1: The position where drilling starts
-            * x2: The middleposition of drilling 
-            * x3: The position where drilling ends
-            * x4: The position where drilling starts
-            * x5: Nullposition
-            * v1: Speed to x1
-            * v2: Speed to x2
-            * v3: Speed to x3
-            * v4: Speed to x4
-            * v5: Speed to x5
-            * mode1
-            * mode2
-            * mode3
-            * mode4
-            * mode5
+        A valid json file is descriped in :mod:`bohrvorrichtung`.
+        
         """
         data = open(self.allProcessDataFileName, "r")
         self.allProcessData = json.loads(data.read())
@@ -276,15 +257,17 @@ class Gui(QtGui.QDialog):
         """
         try:
             maxLinearSpeed = 100
-            maxLinearPosition = 120
             minLinearSpeed = 0.1
+            maxLinearPosition = 120
             minLinearPosition = 0
             maxRotorPosition = 40000
+            minRotorPosition = 1
             maxRotorSpeed = 50000
+            minRotorSpeed = 1
             maxRotorOffset = 40000
             minRotorOffset = -40000
-            minRotorPosition = 1
-            minRotorSpeed = 1
+            maxHoleNumber = 1000
+            minHoleNumber = 1
             name = str(self.ui.dataNameEdit.text())
             rotorOffset = int(self.ui.rotorOffsetEdit.text())
             if rotorOffset > maxRotorOffset:
@@ -293,6 +276,10 @@ class Gui(QtGui.QDialog):
                 raise ValueError("Angabe fuer Rotoroffset zu klein!")
             rotorOffsetSpeed = 500
             holeNumber = int(self.ui.holeCountEdit.text())
+            if holeNumber > maxHoleNumber:
+                raise ValueError("Angabe fuer Lochzahl zu gross!")
+            elif holeNumber < minHoleNumber:
+                raise ValueError("Angabe fuer Lochzahl zu klein!")
             rotorSteps = int(self.ui.rotorPositionEdit.text())
             if rotorSteps > maxRotorPosition:
                 raise ValueError("Angabe fuer Rotorschritte zu gross!")
@@ -382,7 +369,7 @@ class Gui(QtGui.QDialog):
         """Refreshes input edits with given values.
 
         Args:
-            * processData: A dict with process data. See :meth:`loadAllProcessData`
+            * processData
 
         Returns:
             None
@@ -423,24 +410,28 @@ class Gui(QtGui.QDialog):
                 return processData
 
     def mmPerSecondToHz(self, speed):
+        """Transforms speed from mm/s to Hz."""
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
         minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = speed / minimumTravelAmount
         return int(result)
 
     def mmToSteps(self, position):
+        """Transforms position from mm to steps."""
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
         minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = position / minimumTravelAmount
         return int(result)
 
     def hzToMMPerSecond(self, speed):
+        """Transforms speed from hz to mm/s."""
         resolution = 1000 * self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A
         minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = speed * minimumTravelAmount
         return float(result)
 
     def stepsToMM(self, position):
+        """Transforms position from steps to mm."""
         resolution = 1000 * (self.ELECTRONIC_GEAR_B / self.ELECTRONIC_GEAR_A)
         minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = position * minimumTravelAmount
