@@ -131,12 +131,13 @@ class StepperMotor(minimalmodbus.Instrument, object):
                 run = False
             except IOError:
                 failCounter = failCounter + 1
-                logging.debug(self.getStatus("IOError while writing register!"))
+                logging.exception(self.getStatus("IOError while writing register!"))
                 time.sleep(self.standardWaitTime)
             except ValueError as e:
                 failCounter = failCounter + 1
-                logging.debug(self.getStatus("ValueError while writing register!"))
-                logging.debug(self.getStatus(e.message))
+                logging.exception(self.getStatus("ValueError while writing register!"))
+                logging.warning(self.getStatus("Adress: " + str(adress)))
+                logging.warning(self.getStatus("Value: " + str(value)))
                 time.sleep(self.standardWaitTime)
 
     def readRegisterSafe(self, adress):
@@ -319,10 +320,13 @@ class StepperMotor(minimalmodbus.Instrument, object):
             self.writeRegisterSafe(self.operationPositionUpperRegisters[operationNumber],
                     0)
         else:
+            operationPosition = -1 * operationPosition
+            operationPosition = int(2**16 - operationPosition)
+            logging.debug(operationPosition)
             self.writeRegisterSafe(self.operationPositionLowerRegisters[operationNumber],
-                    2**16 + 1 - operationPosition)
+                    operationPosition)
             self.writeRegisterSafe(self.operationPositionUpperRegisters[operationNumber],
-                    2**16)
+                    2**16 - 1)
         time.sleep(self.standardWaitTime)
 
     def writeOperationSpeed(self, operationSpeed, operationNumber):
