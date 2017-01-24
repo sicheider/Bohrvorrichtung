@@ -24,6 +24,8 @@ class Bohrvorrichtung(object):
             self.linear = stepperMotor.StepperMotor("linear", 6, self)
             self.processDataToDevice()
             self.isInterrupted = False
+            self.isHome = False
+            self.standardWaitTime = 0.5
             self.mainLoopWaitTime = 0.1
             self.cr = communicationUtilities.CommandReceiver(self)
             self.cr.start()
@@ -97,6 +99,7 @@ class Bohrvorrichtung(object):
 
     def finishCommand(self):
         self.isInterrupted = False
+        self.isHome = False
 
     def sayHello(self):
         """Process initial movement."""
@@ -104,15 +107,22 @@ class Bohrvorrichtung(object):
         self.linear.goHome()
         self.rotor.startOperation(0)
         self.rotor.startOperation(0)
-        self.rotor.goHome()
+        self.rotorHomeWrap()
+
+    def rotorHomeWrap(self):
+        """Wrapper for home operation. Moves calibration ammount too!"""
+        if not self.isHome:
+            self.rotor.goHome()
+            self.rotor.startOperation(1)
+            self.isHome = True
+        time.sleep(self.standardWaitTime)
 
     def startDrilling(self):
         """Perform drilling process."""
         logging.debug("Start drilling")
         self.linear.goHome()
-        self.rotor.goHome()
+        self.rotorHomeWrap()
         self.linear.startOperation(0)
-        self.rotor.startOperation(1)
         for _ in range(0, self.holeNumer):
             self.linear.startOperation(1)
             self.linear.startOperation(2)
