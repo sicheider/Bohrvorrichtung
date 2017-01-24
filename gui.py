@@ -166,7 +166,6 @@ class Gui(QtGui.QDialog):
         self.ui.comboBox.setEnabled(False)
 
         self.ui.label.setEnabled(False)
-        self.ui.label_2.setEnabled(False)
         self.ui.label_3.setEnabled(False)
         self.ui.label_4.setEnabled(False)
         self.ui.label_5.setEnabled(False)
@@ -181,7 +180,6 @@ class Gui(QtGui.QDialog):
         self.ui.dataNameEdit.setEnabled(False)
         self.ui.rotorOffsetEdit.setEnabled(False)
         self.ui.holeCountEdit.setEnabled(False)
-        self.ui.rotorPositionEdit.setEnabled(False)
         self.ui.rotorSpeedEdit.setEnabled(False)
         self.ui.x1Edit.setEnabled(False)
         self.ui.x2Edit.setEnabled(False)
@@ -204,7 +202,6 @@ class Gui(QtGui.QDialog):
         self.ui.comboBox.setEnabled(True)
 
         self.ui.label.setEnabled(True)
-        self.ui.label_2.setEnabled(True)
         self.ui.label_3.setEnabled(True)
         self.ui.label_4.setEnabled(True)
         self.ui.label_5.setEnabled(True)
@@ -219,7 +216,6 @@ class Gui(QtGui.QDialog):
         self.ui.dataNameEdit.setEnabled(True)
         self.ui.rotorOffsetEdit.setEnabled(True)
         self.ui.holeCountEdit.setEnabled(True)
-        self.ui.rotorPositionEdit.setEnabled(True)
         self.ui.rotorSpeedEdit.setEnabled(True)
         self.ui.x1Edit.setEnabled(True)
         self.ui.x2Edit.setEnabled(True)
@@ -260,8 +256,6 @@ class Gui(QtGui.QDialog):
             minLinearSpeed = 0.1
             maxLinearPosition = 120
             minLinearPosition = 0
-            maxRotorPosition = 40000
-            minRotorPosition = 1
             maxRotorSpeed = 50000
             minRotorSpeed = 1
             maxRotorOffset = 40000
@@ -280,11 +274,6 @@ class Gui(QtGui.QDialog):
                 raise ValueError("Angabe fuer Lochzahl zu gross!")
             elif holeNumber < minHoleNumber:
                 raise ValueError("Angabe fuer Lochzahl zu klein!")
-            rotorSteps = int(self.ui.rotorPositionEdit.text())
-            if rotorSteps > maxRotorPosition:
-                raise ValueError("Angabe fuer Rotorschritte zu gross!")
-            elif rotorSteps < minRotorPosition:
-                raise ValueError("Angabe fuer Rotorschritte zu klein!")
             rotorOperationSpeed = int(self.ui.rotorSpeedEdit.text())
             if rotorOperationSpeed > maxRotorSpeed:
                 raise ValueError("Angabe fuer Rotorgeschwindigkeit zu gross!")
@@ -338,6 +327,7 @@ class Gui(QtGui.QDialog):
             mode3 = 1
             mode4 = 1
             mode5 = 1
+            rotorSteps = int(40000 / holeNumber)
             return {"name" : name,
                     "rotorOffset" : rotorOffset,
                     "rotorOffsetSpeed" : rotorOffsetSpeed,
@@ -387,7 +377,6 @@ class Gui(QtGui.QDialog):
             self.ui.v3Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v3"])))
             self.ui.v4Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v4"])))
             self.ui.rotorSpeedEdit.setText(str(processData["rotorOperationSpeed"]))
-            self.ui.rotorPositionEdit.setText(str(processData["rotorSteps"]))
             self.ui.holeCountEdit.setText(str(processData["holeNumber"]))
             self.ui.rotorOffsetEdit.setText(str(processData["rotorOffset"]))
         else:
@@ -401,7 +390,6 @@ class Gui(QtGui.QDialog):
             self.ui.v3Edit.setText("")
             self.ui.v4Edit.setText("")
             self.ui.rotorSpeedEdit.setText("")
-            self.ui.rotorPositionEdit.setText("")
             self.ui.holeCountEdit.setText("")
 
     def getProcessDataByName(self, name):
