@@ -58,9 +58,9 @@ class StepperMotor(minimalmodbus.Instrument, object):
 
         self.inputRegister = 125
         self.outputRegister = 127
-        #self.operationPositionUpperRegisters = range(1024, 1152, 2)
+        self.operationPositionUpperRegisters = range(1024, 1152, 2)
         self.operationPositionLowerRegisters = range(1025, 1153, 2)
-        #self.operationSpeedUpperRegisters = range(1152, 1280, 2)
+        self.operationSpeedUpperRegisters = range(1152, 1280, 2)
         self.operationSpeedLowerRegisters = range(1153, 1281, 2)
         self.operationModeRegisters = range(1281, 1409, 2)
 
@@ -309,12 +309,20 @@ class StepperMotor(minimalmodbus.Instrument, object):
         Raises:
             ValueError
         """
-        if operationPosition > 2**15 or operationPosition < 0:
+        if operationPosition > 2**16 or operationPosition < -(2**16):
             raise ValueError("Invalid value for operation position!")
         if operationNumber > self.operationCount or operationNumber < 0:
             raise ValueError("Invalid value for operation number!")
-        self.writeRegisterSafe(self.operationPositionLowerRegisters[operationNumber],
-                operationPosition)
+        if operationPosition >= 0:
+            self.writeRegisterSafe(self.operationPositionLowerRegisters[operationNumber],
+                    operationPosition)
+            self.writeRegisterSafe(self.operationPositionUpperRegisters[operationNumber],
+                    0)
+        else:
+            self.writeRegisterSafe(self.operationPositionLowerRegisters[operationNumber],
+                    2**16 + 1 - operationPosition)
+            self.writeRegisterSafe(self.operationPositionUpperRegisters[operationNumber],
+                    2**16)
         time.sleep(self.standardWaitTime)
 
     def writeOperationSpeed(self, operationSpeed, operationNumber):

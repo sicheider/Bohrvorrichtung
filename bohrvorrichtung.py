@@ -67,10 +67,11 @@ class Bohrvorrichtung(object):
 
     def writeProcessData(self):
         """Writes process data to stepper motor registers."""
-        #TODO: write offset data
         logging.debug("Writing process data to devices")
         self.rotor.writeOperationPosition(self.processData["rotorSteps"], 0)
         self.rotor.writeOperationSpeed(self.processData["rotorOperationSpeed"], 0)
+        self.rotor.writeOperationPosition(self.processData["rotorOffset"], 1)
+        self.rotor.writeOperationSpeed(self.processData["rotorOffsetSpeed", 1)
         #better dont touch this value
         #self.rotor.writeOperationMode(self.processData["rotorOperationMode"], 0)
         self.linear.writeOperationPosition(self.processData["x1"], 0)

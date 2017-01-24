@@ -1,0 +1,7 @@
+rotationsgeschw. in °/s
+benutzer datensatz ganz oben
+linke spalte zu schmal
+grafik einfügen
+nullpunktsversatz in °
+schrittversatz ausrechnen
+
