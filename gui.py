@@ -43,6 +43,9 @@ class Gui(QtGui.QDialog):
         #setup combobox
         for processData in self.allProcessData:
             self.ui.comboBox.addItem(processData["name"])
+        currentProcessDataName = self.getCurrentlyUsedProcessdataName()
+        if currentProcessDataName != "":
+            self.ui.comboBox.setCurrentIndex(self.ui.comboBox.findText(currentProcessDataName))
         self.onComboBoxChanged()
 
         #connect events
@@ -57,6 +60,15 @@ class Gui(QtGui.QDialog):
         self.ui.stopButton.clicked.connect(self.onStopButtonClicked)
 
         self.ui.show()
+
+    def getCurrentlyUsedProcessdataName(self):
+        """Gets currently used processdata name from processData.json"""
+        try:
+            data = open(self.processDataFileName, "r")
+            processData = json.loads(data.read())
+            return processData['name']
+        except:
+            return ""
 
     def loadAllProcessData(self):
         """Loads all process data from the json file and stores them into allProcessData.
