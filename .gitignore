@@ -1,7 +1,6 @@
 # everything els
 *.xls
-allProcessData.json
-processData.json
+*.json
 zeiterfassung.txt
 
 # Byte-compiled / optimized / DLL files
