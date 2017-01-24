@@ -23,6 +23,7 @@ class Gui(QtGui.QDialog):
     LINEAR_BALL_SCREW_LEAD = float(6)
     ELECTRONIC_GEAR_A = float(1)
     ELECTRONIC_GEAR_B = float(1)
+    STEPS_PER_RESOLUTION = float(40000)
 
     def __init__(self):
         QtGui.QDialog.__init__(self)
@@ -270,12 +271,12 @@ class Gui(QtGui.QDialog):
             minLinearPosition = 0
             maxRotorSpeed = 50000
             minRotorSpeed = 1
-            maxRotorOffset = 40000
-            minRotorOffset = -40000
+            maxRotorOffset = 360
+            minRotorOffset = -360
             maxHoleNumber = 1000
             minHoleNumber = 1
             name = str(self.ui.dataNameEdit.text())
-            rotorOffset = int(self.ui.rotorOffsetEdit.text())
+            rotorOffset = float(self.ui.rotorOffsetEdit.text())
             if rotorOffset > maxRotorOffset:
                 raise ValueError("Angabe fuer Rotoroffset zu gross!")
             elif rotorOffset < minRotorOffset:
@@ -286,7 +287,7 @@ class Gui(QtGui.QDialog):
                 raise ValueError("Angabe fuer Lochzahl zu gross!")
             elif holeNumber < minHoleNumber:
                 raise ValueError("Angabe fuer Lochzahl zu klein!")
-            rotorOperationSpeed = int(self.ui.rotorSpeedEdit.text())
+            rotorOperationSpeed = float(self.ui.rotorSpeedEdit.text())
             if rotorOperationSpeed > maxRotorSpeed:
                 raise ValueError("Angabe fuer Rotorgeschwindigkeit zu gross!")
             elif rotorOperationSpeed < minRotorSpeed:
@@ -339,13 +340,13 @@ class Gui(QtGui.QDialog):
             mode3 = 1
             mode4 = 1
             mode5 = 1
-            rotorSteps = int(40000 / holeNumber)
+            rotorSteps = int(self.STEPS_PER_RESOLUTION / holeNumber)
             return {"name" : name,
-                    "rotorOffset" : rotorOffset,
+                    "rotorOffset" : self.degreeToSteps(rotorOffset),
                     "rotorOffsetSpeed" : rotorOffsetSpeed,
                     "holeNumber" : holeNumber,
                     "rotorSteps" : rotorSteps,
-                    "rotorOperationSpeed" : rotorOperationSpeed,
+                    "rotorOperationSpeed" : self.degreePerSecondToHz(rotorOperationSpeed),
                     "rotorOperationMode" : 0,
                     "x1" : self.mmToSteps(x1),
                     "x2" : self.mmToSteps(x2),
@@ -388,9 +389,9 @@ class Gui(QtGui.QDialog):
             self.ui.v2Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v2"])))
             self.ui.v3Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v3"])))
             self.ui.v4Edit.setText("%.2f" % (self.hzToMMPerSecond(processData["v4"])))
-            self.ui.rotorSpeedEdit.setText(str(processData["rotorOperationSpeed"]))
+            self.ui.rotorSpeedEdit.setText("%.2f" % (self.hzToDegreePerSecond(processData["rotorOperationSpeed"])))
             self.ui.holeCountEdit.setText(str(processData["holeNumber"]))
-            self.ui.rotorOffsetEdit.setText(str(processData["rotorOffset"]))
+            self.ui.rotorOffsetEdit.setText("%.2f" % (self.stepsToDegree(processData["rotorOffset"])))
         else:
             self.ui.dataNameEdit.setText("")
             self.ui.rotorOffsetEdit.setText("")
@@ -436,6 +437,30 @@ class Gui(QtGui.QDialog):
         minimumTravelAmount = self.LINEAR_BALL_SCREW_LEAD / resolution
         result = position * minimumTravelAmount
         return float(result)
+
+    def degreeToSteps(self, angle):
+        """Transforms degree to steps for the rotor."""
+        stepsPerDegree = self.STEPS_PER_RESOLUTION / 360.0
+        result = int(stepsPerDegree * angle)
+        return result
+
+    def stepsToDegree(self, position):
+        """Transforms steps to degree for the rotor."""
+        degreePerStep = 360.0 / self.STEPS_PER_RESOLUTION
+        result = float(degreePerStep * position)
+        return result
+
+    def degreePerSecondToHz(self, anglePerSecond):
+        """Transforms degrees per second to hz for the rotor."""
+        stepsPerDegree = self.STEPS_PER_RESOLUTION / 360.0
+        result = int(stepsPerDegree * anglePerSecond)
+        return result
+
+    def hzToDegreePerSecond(self, speed):
+        """Transforms hz to steps per second for the rotor."""
+        degreePerStep = 360.0 / self.STEPS_PER_RESOLUTION
+        result = float(degreePerStep * speed)
+        return result
 
     def closeEvent(self):
         os.kill(os.getpid(), 15)
