@@ -108,11 +108,11 @@ class Bohrvorrichtung(object):
 
     def startDrilling(self):
         """Perform drilling process."""
-        #TODO: drive offset
         logging.debug("Start drilling")
         self.linear.goHome()
         self.rotor.goHome()
         self.linear.startOperation(0)
+        self.rotor.startOperation(1)
         for _ in range(0, self.holeNumer):
             self.linear.startOperation(1)
             self.linear.startOperation(2)
