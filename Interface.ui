@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>699</width>
-    <height>700</height>
+    <height>851</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,13 +49,6 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Position 1 [mm]</string>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
@@ -63,8 +56,12 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="x2Edit"/>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Position 1 [mm]</string>
+       </property>
+      </widget>
      </item>
      <item row="2" column="1">
       <widget class="QLineEdit" name="x1Edit"/>
@@ -76,11 +73,8 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="rotorSpeedEdit"/>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="x3Edit"/>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="holeCountEdit"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_5">
@@ -96,8 +90,14 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="holeCountEdit"/>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="x2Edit"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="rotorSpeedEdit"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="x3Edit"/>
      </item>
     </layout>
    </widget>
@@ -273,7 +273,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>590</y>
+      <y>580</y>
       <width>681</width>
       <height>101</height>
      </rect>
@@ -306,6 +306,35 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>690</y>
+      <width>661</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>schemaLineareinheitGui.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>50</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1° entpricht 5,43 mm (29 Zoll)</string>
+    </property>
    </widget>
   </widget>
  </widget>

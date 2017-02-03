@@ -17,7 +17,8 @@
         VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,8 +26,6 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
-    <link rel="up" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
     <link rel="next" title="minimalmodbus module" href="minimalmodbus.html" />
     <link rel="prev" title="communicationUtilities module" href="communicationUtilities.html" /> 
   </head>
@@ -90,6 +89,11 @@
 <code class="descname">LINEAR_BALL_SCREW_LEAD</code><em class="property"> = 6.0</em><a class="headerlink" href="#gui.Gui.LINEAR_BALL_SCREW_LEAD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="gui.Gui.STEPS_PER_RESOLUTION">
+<code class="descname">STEPS_PER_RESOLUTION</code><em class="property"> = 40000.0</em><a class="headerlink" href="#gui.Gui.STEPS_PER_RESOLUTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="gui.Gui.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.__init__" title="Permalink to this definition">¶</a></dt>
@@ -101,6 +105,18 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="gui.Gui.degreePerSecondToHz">
+<code class="descname">degreePerSecondToHz</code><span class="sig-paren">(</span><em>anglePerSecond</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.degreePerSecondToHz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms degrees per second to hz for the rotor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.degreeToSteps">
+<code class="descname">degreeToSteps</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.degreeToSteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms degree to steps for the rotor.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="gui.Gui.disableWidgets">
 <code class="descname">disableWidgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.disableWidgets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Disables all widgets.</p>
@@ -110,6 +126,12 @@
 <dt id="gui.Gui.enableWidgets">
 <code class="descname">enableWidgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.enableWidgets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables all widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.getCurrentlyUsedProcessdataName">
+<code class="descname">getCurrentlyUsedProcessdataName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.getCurrentlyUsedProcessdataName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets currently used processdata name from processData.json</p>
 </dd></dl>
 
 <dl class="method">
@@ -135,6 +157,12 @@
 <dt id="gui.Gui.getProcessDataByName">
 <code class="descname">getProcessDataByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.getProcessDataByName" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="gui.Gui.hzToDegreePerSecond">
+<code class="descname">hzToDegreePerSecond</code><span class="sig-paren">(</span><em>speed</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.hzToDegreePerSecond" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms hz to steps per second for the rotor.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="gui.Gui.hzToMMPerSecond">
@@ -245,6 +273,12 @@ and enables widges.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="gui.Gui.stepsToDegree">
+<code class="descname">stepsToDegree</code><span class="sig-paren">(</span><em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.stepsToDegree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms steps to degree for the rotor.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="gui.Gui.stepsToMM">
 <code class="descname">stepsToMM</code><span class="sig-paren">(</span><em>position</em><span class="sig-paren">)</span><a class="headerlink" href="#gui.Gui.stepsToMM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transforms position from steps to mm.</p>
@@ -269,7 +303,7 @@ and enables widges.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/gui.txt"
+      <li><a href="_sources/gui.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -308,7 +342,7 @@ and enables widges.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, Simon Heider.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
