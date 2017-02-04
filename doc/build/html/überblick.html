@@ -17,7 +17,8 @@
         VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,7 +26,6 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Bohrvorrichtung 0.0.1 documentation" href="index.html" />
     <link rel="next" title="Bohrvorrichtung Quellcodedokumentation" href="modules.html" />
     <link rel="prev" title="Welcome to Bohrvorrichtung’s documentation!" href="index.html" /> 
   </head>
@@ -79,8 +79,11 @@ indem das entsprechnede Bit am Inputregister gesetzt wird.</p>
 sowie im OrientalMotor Datenblatt Kapitel 5 und in der Softwaredokumentation.</p>
 <div class="section" id="rotor">
 <h3>Rotor<a class="headerlink" href="#rotor" title="Permalink to this headline">¶</a></h3>
-<p>Der zentrale Rotor besitzt nur einen Datensatz, welcher unter dem Index 0 gespeichert ist. Die
-zugehörige Operation rotiert die Felge um einen Bohrversatz.</p>
+<p>Der zentrale Rotor besitzt zwei Datensätze:</p>
+<ul class="simple">
+<li>Index 0: Schrittversatz pro Bohrung</li>
+<li>Index 1: Schrittversatz zum Nullpunktsausgleich</li>
+</ul>
 </div>
 <div class="section" id="lineareinheit">
 <h3>Lineareinheit<a class="headerlink" href="#lineareinheit" title="Permalink to this headline">¶</a></h3>
@@ -261,7 +264,7 @@ Stop der Maschine darf jedoch jederzeit gesendet werden.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/überblick.txt"
+      <li><a href="_sources/überblick.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -299,7 +302,7 @@ Stop der Maschine darf jedoch jederzeit gesendet werden.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, Simon Heider.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
