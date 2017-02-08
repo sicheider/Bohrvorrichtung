@@ -184,11 +184,14 @@ class Gui(QtGui.QDialog):
         self.ui.label_5.setEnabled(False)
         self.ui.label_6.setEnabled(False)
         self.ui.label_7.setEnabled(False)
+        self.ui.label_9.setEnabled(False)
         self.ui.label_10.setEnabled(False)
         self.ui.label_11.setEnabled(False)
         self.ui.label_12.setEnabled(False)
         self.ui.label_13.setEnabled(False)
         self.ui.label_14.setEnabled(False)
+
+        self.ui.isReverse.setEnabled(False)
 
         self.ui.dataNameEdit.setEnabled(False)
         self.ui.rotorOffsetEdit.setEnabled(False)
@@ -220,11 +223,14 @@ class Gui(QtGui.QDialog):
         self.ui.label_5.setEnabled(True)
         self.ui.label_6.setEnabled(True)
         self.ui.label_7.setEnabled(True)
+        self.ui.label_9.setEnabled(True)
         self.ui.label_10.setEnabled(True)
         self.ui.label_11.setEnabled(True)
         self.ui.label_12.setEnabled(True)
         self.ui.label_13.setEnabled(True)
         self.ui.label_14.setEnabled(True)
+
+        self.ui.isReverse.setEnabled(True)
 
         self.ui.dataNameEdit.setEnabled(True)
         self.ui.rotorOffsetEdit.setEnabled(True)
@@ -341,6 +347,8 @@ class Gui(QtGui.QDialog):
             mode4 = 1
             mode5 = 1
             rotorSteps = int(self.STEPS_PER_RESOLUTION / holeNumber)
+            if self.ui.isReverse.isChecked():
+                rotorSteps = rotorSteps * (-1)
             return {"name" : name,
                     "rotorOffset" : self.degreeToSteps(rotorOffset),
                     "rotorOffsetSpeed" : rotorOffsetSpeed,
@@ -392,6 +400,10 @@ class Gui(QtGui.QDialog):
             self.ui.rotorSpeedEdit.setText("%.2f" % (self.hzToDegreePerSecond(processData["rotorOperationSpeed"])))
             self.ui.holeCountEdit.setText(str(processData["holeNumber"]))
             self.ui.rotorOffsetEdit.setText("%.2f" % (self.stepsToDegree(processData["rotorOffset"])))
+            if processData["rotorSteps"] < 0:
+                self.ui.isReverse.setChecked(True)
+            else:
+                self.ui.isReverse.setChecked(False)
         else:
             self.ui.dataNameEdit.setText("")
             self.ui.rotorOffsetEdit.setText("")
@@ -404,6 +416,7 @@ class Gui(QtGui.QDialog):
             self.ui.v4Edit.setText("")
             self.ui.rotorSpeedEdit.setText("")
             self.ui.holeCountEdit.setText("")
+            self.ui.isReverse.setChecked(False)
 
     def getProcessDataByName(self, name):
         for processData in self.allProcessData:

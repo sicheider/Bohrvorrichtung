@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>699</width>
-    <height>851</height>
+    <height>822</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Bohrvorrichtung</string>
@@ -43,20 +49,20 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>50</y>
       <width>281</width>
-      <height>221</height>
+      <height>261</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="4" column="0">
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Position 3 [mm]</string>
+        <string>Position 2 [mm]</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Position 1 [mm]</string>
@@ -64,40 +70,54 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="x1Edit"/>
+      <widget class="QLineEdit" name="rotorSpeedEdit"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Rotorgeschwindigkeit [°/s]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="holeCountEdit"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Position 2 [mm]</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Anzahl Löcher</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QLineEdit" name="x2Edit"/>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="rotorSpeedEdit"/>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Position 3 [mm]</string>
+       </property>
+      </widget>
      </item>
-     <item row="4" column="1">
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="holeCountEdit"/>
+     </item>
+     <item row="5" column="1">
       <widget class="QLineEdit" name="x3Edit"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="x1Edit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Rotorgeschwindigkeit [°/s]*</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QCheckBox" name="isReverse">
+       <property name="text">
+        <string>Aktiviert</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Rotor gegen Uhrzeigersinn</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -170,7 +190,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>Rotoroffset [°]</string>
+        <string>Rotoroffset [°]*</string>
        </property>
       </widget>
      </item>
@@ -189,6 +209,13 @@
      <property name="spacing">
       <number>6</number>
      </property>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>* 1° entpricht 5,43 mm (29 Zoll)</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="saveDataButton">
        <property name="sizePolicy">
@@ -311,7 +338,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>690</y>
+      <y>680</y>
       <width>661</width>
       <height>131</height>
      </rect>
@@ -323,21 +350,37 @@
      <pixmap>schemaLineareinheitGui.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>50</y>
-      <width>181</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>1° entpricht 5,43 mm (29 Zoll)</string>
-    </property>
-   </widget>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>gridLayoutWidget_2</zorder>
+   <zorder>verticalLayoutWidget_2</zorder>
+   <zorder>verticalLayoutWidget_3</zorder>
+   <zorder>label_2</zorder>
+   <zorder>label_8</zorder>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>holeCountEdit</tabstop>
+  <tabstop>rotorSpeedEdit</tabstop>
+  <tabstop>x1Edit</tabstop>
+  <tabstop>x2Edit</tabstop>
+  <tabstop>x3Edit</tabstop>
+  <tabstop>dataNameEdit</tabstop>
+  <tabstop>rotorOffsetEdit</tabstop>
+  <tabstop>v4Edit</tabstop>
+  <tabstop>v1Edit</tabstop>
+  <tabstop>v2Edit</tabstop>
+  <tabstop>v3Edit</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>saveDataButton</tabstop>
+  <tabstop>saveDataAndLoadButton</tabstop>
+  <tabstop>deleteDataButton</tabstop>
+  <tabstop>driveX1Button</tabstop>
+  <tabstop>driveX2Button</tabstop>
+  <tabstop>driveX3Button</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>stopButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
